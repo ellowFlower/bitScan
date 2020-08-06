@@ -1,7 +1,13 @@
 import socket
 import logging
+import time
 
+from collections import deque
+from io import BytesIO
 from bitScan.serializer import Serializer
+from bitScan.utils import *
+from bitScan.exception import PayloadTooShortError, RemoteHostClosedConnection
+
 
 
 class Connection(object):
@@ -24,6 +30,7 @@ class Connection(object):
         # TODO Maybe not necessary to use a own serializer object for every connection
         self.serializer = Serializer()
         self.socket = None
+        self.bps = deque([], maxlen=128)  # bps samples for this connection
 
     def open(self):
         """Create connection to a bitcoin node.
@@ -50,7 +57,64 @@ class Connection(object):
         """
         payload_version = self.serializer.serialize_version_payload(self.to_addr, self.from_addr)
         msg = self.serializer.create_message('version', payload_version)
-        self.send(msg)
+        print('request: ' + str(msg))
+        self.socket.sendall(msg)
 
-    def send(self, data):
-        self.socket.sendall(data)
+        # <<< [version 124 bytes]
+        response = self.get_messages(length=124)
+        print('response: ' + str(response))
+
+    def get_messages(self, length=0):
+        """Receive data from a bitcoin node.
+
+        Note:
+            More than one message can be received
+
+        Args:
+            length (int): number of how many bytes we want to read
+
+        Returns:
+            A readable format of all message we got. [msg1, msg2, ...]
+            msg = {<headerValues>, <payload>}
+        """
+        msgs = []
+        data = self.recv(length)
+        data = BytesIO(data)
+
+        # header
+        msg = self.serializer.deserialize_header(data.read(HEADER_LEN))
+
+        # payload
+        if msg['command'] == 'version':
+            msg.update({'payload':self.serializer.deserialize_version_payload(data.read(msg['length']))})
+
+        msgs.append(msg)
+        return msgs
+
+    def recv(self, length=0):
+        """Receive length data from a socket.
+
+        Args:
+            length (int): number of how many bytes we want to read
+
+        Returns:
+            The receive data in bytes.
+        """
+        if length > 0:
+            data = b''
+            # receive until length for wanted message is reached
+            while length > 0:
+                chunk = self.socket.recv(SOCKET_BUFSIZE)
+
+                if not chunk:
+                    raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
+
+                data += chunk
+                length -= len(chunk)
+        else:
+            data = self.socket.recv(SOCKET_BUFSIZE)
+
+            if not data:
+                raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
+
+        return data
