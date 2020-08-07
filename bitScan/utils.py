@@ -31,17 +31,17 @@ def sha256_util(data):
     return hashlib.sha256(data).digest()
 
 
-def unpack_util(fmt, string):
+def unpack_util(fmt, data, str = ''):
     """Wraps problematic struct.unpack() in a try statement
 
     Args:
         fmt (str): The form which is used for unpacking
-        string (str): The string which is unpacked.
+        data (byte): The string which is unpacked.
 
     Returns: Unpacked data, which should be readable.
     """
     try:
-        return struct.unpack(fmt, string)[0]
+        return struct.unpack(fmt, data)[0]
     except struct.error as err:
         raise ReadError(err)
 

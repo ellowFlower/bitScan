@@ -1,3 +1,4 @@
 venv
 .idea
 docs
+__pycache__/

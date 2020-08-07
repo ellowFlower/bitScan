@@ -55,23 +55,26 @@ class Connection(object):
             To send a message it must be first serialized.
             When receiving a message it must be deserialized to be readable.
         """
+        logging.info("Make handshake.")
+
         payload_version = self.serializer.serialize_version_payload(self.to_addr, self.from_addr)
         msg = self.serializer.create_message('version', payload_version)
-        print('request: ' + str(msg))
         self.socket.sendall(msg)
 
-        # <<< [version 124 bytes]
-        response = self.get_messages(length=124)
+        # <<< [version 124 bytes] [verack 24 bytes]
+        response = self.get_messages(148)
         print('response: ' + str(response))
 
     def get_messages(self, length=0):
         """Receive data from a bitcoin node.
 
         Note:
-            More than one message can be received
+            More than one message can be received. When receiving a verack message there is no payload,
+            therefore only the header has to be deserialized.
+            If a version message is received, send a verack message immediately
 
         Args:
-            length (int): number of how many bytes we want to read
+            length (int): Number of how many bytes we want to read
 
         Returns:
             A readable format of all message we got. [msg1, msg2, ...]
@@ -81,14 +84,20 @@ class Connection(object):
         data = self.recv(length)
         data = BytesIO(data)
 
-        # header
-        msg = self.serializer.deserialize_header(data.read(HEADER_LEN))
+        # read until buffer is empty
+        while length > 0:
+            # header
+            msg = self.serializer.deserialize_header(data.read(HEADER_LEN))
 
-        # payload
-        if msg['command'] == 'version':
-            msg.update({'payload':self.serializer.deserialize_version_payload(data.read(msg['length']))})
+            # payload
+            if msg['command'] == 'version':
+                msg.update({'payload':self.serializer.deserialize_version_payload(data.read(msg['length']))})
+                self.socket.sendall(self.serializer.create_message('verack', b''))
 
-        msgs.append(msg)
+            msgs.append(msg)
+            length -= (HEADER_LEN + msg['length'])
+
+
         return msgs
 
     def recv(self, length=0):

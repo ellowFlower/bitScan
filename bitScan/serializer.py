@@ -37,17 +37,25 @@ class Serializer(object):
         # allow caller to fetch more data over the network.
         self.required_len = 0
 
-    def create_message(self, command, payload):
+    def create_message(self, command, payload, test=False):
         """Create full message which can be send to a bitcoin node.
+
+        Note:
+            Using the test argument to used the same checksum for two different calls of this method.
+            Therefore we can compare the outcome.
 
         Args:
             command (str): The command type for the message. E.g: 'version'.
             payload (struct.pack): Content is the already packed payload of the message
+            test (bool): Indicate if the function is used in a test
 
         Returns:
             The message as bytes which can be sent to a bitcoin node.
         """
         checksum = sha256_util(sha256_util(payload))[:4]
+
+        if test:
+            checksum = b'\x13+\x07\xf2'
 
         return struct.pack('I', self.magic_number) + str.encode(command + "\x00" * (12 - len(command))) +\
                struct.pack('<I', len(payload)) + checksum + payload
@@ -61,9 +69,6 @@ class Serializer(object):
         Returns:
             The packed address
         """
-        # network_address = struct.pack('>8s16sH', b'\x01',
-        #                               bytearray.fromhex("00000000000000000000ffff") + socket.inet_aton(addr[0]),
-        #                               addr[1])
         return struct.pack("<Q", 1) + struct.pack('>16sH', bytearray.fromhex("00000000000000000000ffff") + socket.inet_aton(addr[0]), addr[1])
 
     def serialize_version_payload(self, to_addr, from_addr):
@@ -100,7 +105,7 @@ class Serializer(object):
         """
         data = BytesIO(data)
         return {'magic_number': data.read(4), 'command': data.read(12).strip(b"\x00").decode("utf-8"),
-               'length': unpack_util("<I", data.read(4)), 'checksum': data.read(4)}
+               'length': unpack_util("<I", data.read(4), 'deserialization header length'), 'checksum': data.read(4)}
 
     def deserialize_version_payload(self, data):
         """Deserialize version payload.
@@ -137,6 +142,25 @@ class Serializer(object):
             msg['relay'] = struct.unpack("<?", data.read(1))[0]
         except struct.error:
             msg['relay'] = False
+
+        return msg
+
+    def deserialize_verack_payload(self, data):
+        """Deserialize verack payload.
+
+        Note:
+            payload contains: version, services, timestamp, to_addr, from_addr, nonce, user agent, height, relay
+
+        Args:
+            data (bytes): Payload content
+
+        Returns:
+            Dictionary with all the content from the payload in a readable format.
+        """
+        data = BytesIO(data)
+        msg = {}
+
+
 
         return msg
 

@@ -14,6 +14,7 @@ def main():
         conn.open()
         conn.handshake()
 
+
     except (ConnectionError) as err:
         logging.error("Error occured: {}".format(err))
 
