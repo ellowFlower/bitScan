@@ -13,6 +13,10 @@ class ConnectionTestCase(unittest.TestCase):
 
             -- Test format of the outcome which should be: [{<message1>}, {<message2>}, ...]
             -- Test the outcome. (Maybe with a own created local bitcoin regtestnet)
+
+            Testcase:
+                Regtest network
+                Network with 3 different nodes. A getaddr message to our main node should return the two other nodes.
         """
         pass
 
