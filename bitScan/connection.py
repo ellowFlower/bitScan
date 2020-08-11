@@ -67,7 +67,7 @@ class Connection(object):
         self.socket.sendall(msg)
 
         # <<< [version 124 bytes] [verack 24 bytes]
-        return self.get_messages(148)
+        return self.get_messages(length=148, commands=['version', 'verack'])
 
     def getaddr_addr(self):
         """Send getaddr and then receive addr message.
@@ -76,19 +76,26 @@ class Connection(object):
             A getaddr message has no payload.
         """
         # getaddr
+        logging.info("Send getaddr.")
         msg = self.serializer.create_message('getaddr', b'')
         self.socket.sendall(msg)
 
         # addr
-        return self.get_messages(commands=['addr'])
+        logging.info("Receive addr.")
+        a = self.recv_addr()
+        print(a)
+        return a
 
+    # TODO refactor (version and getaddr message)
     def get_messages(self, length=0, commands=None):
         """Receive data from a bitcoin node.
 
         Note:
             More than one message can be received. When receiving a verack message there is no payload,
             therefore only the header has to be deserialized.
-            If a version message is received, send a verack message immediately
+            If a version message is received, send a verack message immediately.
+            Because it is possible, that we receive more than the messages we want to handle further, we
+            filter the response in the end.
 
         Args:
             length (int): Number of how many bytes we want to read.
@@ -98,16 +105,11 @@ class Connection(object):
             A readable format of all message we got. [msg1, msg2, ...]
             msg = {<headerValues>, <payload>}
         """
-        # TODO workaround because we don't know how much data we receive from a addr message;
-        # Maybe refactor, that we read the header first and then have the length of payload
-        if commands is not None and commands[0] == 'addr':
-            length = SOCKET_BUFSIZE
-
-        msgs = []
         data = self.recv(length)
         data = BytesIO(data)
+        msgs = []
 
-        # read until buffer is empty
+        # read until buffer is empty or after addr message is read (because we don't know the size)
         while length > 0:
             # header
             msg = self.serializer.deserialize_header(data.read(HEADER_LEN))
@@ -118,9 +120,14 @@ class Connection(object):
                 self.socket.sendall(self.serializer.create_message('verack', b''))
             elif msg['command'] == 'addr':
                 msg.update({'payload':self.serializer.deserialize_addr_payload(data.read(msg['length']))})
+                break
 
             msgs.append(msg)
             length -= (HEADER_LEN + msg['length'])
+
+        # filter response
+        if len(msgs) > 0 and commands:
+            msgs[:] = [m for m in msgs if m.get('command') in commands]
 
         return msgs
 
@@ -151,3 +158,31 @@ class Connection(object):
                 raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
 
         return data
+
+    def recv_addr(self):
+        """Receive data until addr message ocurs. Then return addr message.
+
+        Note:
+             An addr message it at most 30000 bytes long.
+        """
+        data = b''
+        msg = []
+        while True:
+            chunk = self.socket.recv(HEADER_LEN)
+            data = BytesIO(chunk)
+
+            helper = self.serializer.deserialize_header(data.read(HEADER_LEN))
+
+            # check if addr message
+            if helper['command'] == 'addr':
+                msg = helper
+                chunk = self.socket.recv(msg['length'])
+                data = BytesIO(chunk)
+                msg.update({'payload': self.serializer.deserialize_addr_payload(data.read(msg['length']))})
+                break
+            else:
+                chunk = self.socket.recv(helper['length'])
+                data = BytesIO(chunk)
+                not_used = data.read(helper['length'])
+
+        return msg

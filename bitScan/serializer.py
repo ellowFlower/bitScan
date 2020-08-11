@@ -63,19 +63,6 @@ class Serializer(object):
         return struct.pack('I', self.magic_number) + str.encode(command + "\x00" * (12 - len(command))) +\
                struct.pack('<I', len(payload)) + checksum + payload
 
-    def serialize_getaddr_payload(self, to_addr, from_addr):
-        """Serialize the payload for a getaddr message.
-
-        Args:
-            to_addr ((str, int)): Source address
-            from_addr ((str, int)): Address of a bitcoin node
-
-        Returns:
-            The packed address
-        """
-
-
-
     def serialize_network_address(self, addr):
         """Serialize (pack) a network address.
 
@@ -122,7 +109,7 @@ class Serializer(object):
             Dictionary with all the content from the header in a readable format.
         """
         data = BytesIO(data)
-        return {'magic_number': data.read(4), 'command': data.read(12).strip(b"\x00").decode("utf-8"),
+        return {'magic_number': data.read(4), 'command': data.read(12).strip(b"\x00").decode("latin-1"),
                'length': unpack_util("<I", data.read(4), 'deserialization header length'), 'checksum': data.read(4)}
 
     def deserialize_version_payload(self, data):

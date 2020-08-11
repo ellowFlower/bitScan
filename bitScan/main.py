@@ -1,24 +1,36 @@
 import logging
+import csv
 
 from bitScan.connection import Connection
 from bitScan.exception import ConnectionError
 
 def main():
-    """Create connection to a bitcoin node and send getaddr message."""
+    """Create a connection and send getaddr message to the bitcoin nodes which address is read from a csv file.
 
+    Note:
+        The csv file must only contain the addresses delimited by ','. No newline character or space in between.
+    """
     logging.basicConfig(level=logging.DEBUG)
 
-    conn = Connection(('88.99.167.175', 8333))
-    # conn = Connection(('127.0.0.1', 18444))
-    try:
-        conn.open()
-        conn.handshake()
-        conn.getaddr_addr()
+    # read file
+    addresses = []
+    with open('../addresses_bitcoin_nodes.csv', 'r') as data:
+        csv_reader = csv.reader(data, delimiter=',')
+        for row in csv_reader:
+            addresses.extend(row)
 
-    except (ConnectionError) as err:
-        logging.error("Error occured: {}".format(err))
+    for address in addresses:
+        conn = Connection((address, 8333))
+        # conn = Connection(('127.0.0.1', 18444))
+        try:
+            conn.open()
+            a = conn.handshake()
+            conn.getaddr_addr()
 
-    conn.close()
+        except (ConnectionError) as err:
+            logging.error("Error occured: {}".format(err))
+
+        conn.close()
 
 
 if __name__ == '__main__':
