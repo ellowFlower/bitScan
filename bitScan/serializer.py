@@ -13,6 +13,8 @@ from base64 import b32decode, b32encode
 from bitScan.utils import *
 from bitScan.exception import *
 
+"""Reference for the content of the messages: https://en.bitcoin.it/wiki/Protocol_documentation"""
+
 
 class Serializer(object):
     """Handles serialization and deserialization.
@@ -26,7 +28,8 @@ class Serializer(object):
     """
     def __init__(self):
         logging.info('Create serialize object.')
-        self.magic_number = 0xd9b4bef9
+        # TODO change if running on real network
+        self.magic_number = 0xd9b4bef9  # 0xd9b4bef9 0xfabfb5da 0x0b110907
         self.protocol_version = 70015
         self.to_services = 1
         self.from_services = 0
@@ -60,6 +63,19 @@ class Serializer(object):
         return struct.pack('I', self.magic_number) + str.encode(command + "\x00" * (12 - len(command))) +\
                struct.pack('<I', len(payload)) + checksum + payload
 
+    def serialize_getaddr_payload(self, to_addr, from_addr):
+        """Serialize the payload for a getaddr message.
+
+        Args:
+            to_addr ((str, int)): Source address
+            from_addr ((str, int)): Address of a bitcoin node
+
+        Returns:
+            The packed address
+        """
+
+
+
     def serialize_network_address(self, addr):
         """Serialize (pack) a network address.
 
@@ -71,7 +87,7 @@ class Serializer(object):
         """
         return struct.pack("<Q", 1) + struct.pack('>16sH', bytearray.fromhex("00000000000000000000ffff") + socket.inet_aton(addr[0]), addr[1])
 
-    def serialize_version_payload(self, to_addr, from_addr):
+    def serialize_version_payload(self, to_addr, from_addr, test=False):
         """Serialize the payload for a version message.
 
         Args:
@@ -86,10 +102,12 @@ class Serializer(object):
         peer_addr = self.serialize_network_address(to_addr)
         nonce = random.getrandbits(64)
 
-        payload = struct.pack('<iQq26s26sQ16si?', self.protocol_version, self.from_services, timestamp, peer_addr,
-                              source_addr, nonce, create_sub_version(), 478000, 0)
+        if test:
+            timestamp = 1596794043
+            nonce = 615169444417225228
 
-        return payload
+        return struct.pack('<iQq26s26sQ16si?', self.protocol_version, self.from_services, timestamp, peer_addr,
+                              source_addr, nonce, create_sub_version(), 478000, 0)
 
     def deserialize_header(self, data):
         """Deserialize header of a message.
@@ -145,6 +163,29 @@ class Serializer(object):
 
         return msg
 
+    def deserialize_addr_payload(self, data):
+        """Deserialize addr payload.
+
+        Note:
+            payload contains: count, one or multiple addresses
+
+        Args:
+            data (bytes): Payload content
+
+        Returns:
+            Dictionary with all the content from the payload in a readable format.
+        """
+        data = BytesIO(data)
+        msg = {}
+
+        msg['count'] = self.deserialize_int(data)
+        msg['addr_list'] = []
+        for _ in range(msg['count']):
+            msg['addr_list'].append(self.deserialize_network_address(data, has_timestamp=True))
+
+        return msg
+
+    # TODO do we need this function???
     def deserialize_verack_payload(self, data):
         """Deserialize verack payload.
 
@@ -159,8 +200,6 @@ class Serializer(object):
         """
         data = BytesIO(data)
         msg = {}
-
-
 
         return msg
 

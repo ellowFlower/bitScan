@@ -41,7 +41,10 @@ class Connection(object):
         """
         logging.info('Open connection.')
 
-        self.socket = socket.create_connection(self.to_addr)
+        try:
+            self.socket = socket.create_connection(self.to_addr)
+        except (socket.error) as err:
+            logging.error("Error occured: {}".format(err))
 
     def close(self):
         logging.info("Close connection if active.")
@@ -54,6 +57,8 @@ class Connection(object):
         Note:
             To send a message it must be first serialized.
             When receiving a message it must be deserialized to be readable.
+
+        Returns: The response of the handshake in a readable format.
         """
         logging.info("Make handshake.")
 
@@ -62,10 +67,22 @@ class Connection(object):
         self.socket.sendall(msg)
 
         # <<< [version 124 bytes] [verack 24 bytes]
-        response = self.get_messages(148)
-        print('response: ' + str(response))
+        return self.get_messages(148)
 
-    def get_messages(self, length=0):
+    def getaddr_addr(self):
+        """Send getaddr and then receive addr message.
+
+        Note:
+            A getaddr message has no payload.
+        """
+        # getaddr
+        msg = self.serializer.create_message('getaddr', b'')
+        self.socket.sendall(msg)
+
+        # addr
+        return self.get_messages(commands=['addr'])
+
+    def get_messages(self, length=0, commands=None):
         """Receive data from a bitcoin node.
 
         Note:
@@ -74,12 +91,18 @@ class Connection(object):
             If a version message is received, send a verack message immediately
 
         Args:
-            length (int): Number of how many bytes we want to read
+            length (int): Number of how many bytes we want to read.
+            commands (list): List of the type of the message(s) we want to receive.
 
         Returns:
             A readable format of all message we got. [msg1, msg2, ...]
             msg = {<headerValues>, <payload>}
         """
+        # TODO workaround because we don't know how much data we receive from a addr message;
+        # Maybe refactor, that we read the header first and then have the length of payload
+        if commands is not None and commands[0] == 'addr':
+            length = SOCKET_BUFSIZE
+
         msgs = []
         data = self.recv(length)
         data = BytesIO(data)
@@ -93,10 +116,11 @@ class Connection(object):
             if msg['command'] == 'version':
                 msg.update({'payload':self.serializer.deserialize_version_payload(data.read(msg['length']))})
                 self.socket.sendall(self.serializer.create_message('verack', b''))
+            elif msg['command'] == 'addr':
+                msg.update({'payload':self.serializer.deserialize_addr_payload(data.read(msg['length']))})
 
             msgs.append(msg)
             length -= (HEADER_LEN + msg['length'])
-
 
         return msgs
 

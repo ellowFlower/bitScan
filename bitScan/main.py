@@ -9,11 +9,11 @@ def main():
     logging.basicConfig(level=logging.DEBUG)
 
     conn = Connection(('88.99.167.175', 8333))
-
+    # conn = Connection(('127.0.0.1', 18444))
     try:
         conn.open()
         conn.handshake()
-
+        conn.getaddr_addr()
 
     except (ConnectionError) as err:
         logging.error("Error occured: {}".format(err))

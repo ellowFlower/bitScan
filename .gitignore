@@ -2,3 +2,4 @@ venv
 .idea
 docs
 __pycache__/
+bitcoin_test_network
