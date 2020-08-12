@@ -17,8 +17,12 @@ class Connection(object):
         to_addr ((str, int)): Address of the bitcoin node we connect to in the form (ip, port).
 
     Attributes:
-        to_addr ((str, int)): Address of the bitcoin node we connect to in the form (ip, port).
-        from_addr (str, int): Our address where we make the connection to the bitcoin node in the form (ip, port).
+        to_addr (tuple): tuple containing:
+            host (str): Host
+            port (int): Port
+        from_addr (tuple): tuple containing:
+            host (str): Host
+            port (int): Port
         serializer (obj): Serializer object for this connection.
         socket (obj): Socket for communication with a bitcoin node.
     """
@@ -56,7 +60,8 @@ class Connection(object):
             To send a message it must be first serialized.
             When receiving a message it must be deserialized to be readable.
 
-        Returns: The response of the handshake in a readable format.
+        Returns:
+            list: The response of the handshake in a readable format.
         """
         logging.info("Make handshake.")
 
@@ -92,12 +97,10 @@ class Connection(object):
 
         Args:
             length (int): Number of how many bytes we want to read.
-            commands (list): List of the type of the message(s) we want to receive. If 'addr' is in it, it must be the
-            only entry.
+            commands (list): List of the type of the message(s) we want to receive. If 'addr' is in it, it must be the only entry.
 
         Returns:
-            A readable format of all message we got. [msg1, msg2, ...]
-            msg = {<headerValues>, <payload>}
+            list: A readable format of all message we got. [msg1, msg2, ...]; msg = {<headerValues>, <payload>}
         """
         data = b''
         msgs = []

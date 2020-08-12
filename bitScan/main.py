@@ -5,6 +5,7 @@ import socket
 from bitScan.connection import Connection
 from bitScan.exception import *
 
+
 def main():
     """Create a connection and send getaddr message to the bitcoin nodes which address is read from a csv file.
 
@@ -32,6 +33,7 @@ def main():
             logging.error("Error occured: {}".format(err))
 
         conn.close()
+
 
 if __name__ == '__main__':
     main()

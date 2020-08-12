@@ -13,7 +13,8 @@ def create_sub_version():
     Notes:
         Has length 16
 
-    Returns: Binary encodes sub-version as bytes
+    Returns:
+        bytes: Binary encodes sub-version as bytes
     """
     sub_version = "/Satoshi:0.7.2/"
     return b'\x0F' + sub_version.encode()
@@ -28,9 +29,10 @@ def unpack_util(fmt, data, str = ''):
 
     Args:
         fmt (str): The form which is used for unpacking
-        data (byte): The string which is unpacked.
+        data (bytes): The string which is unpacked.
 
-    Returns: Unpacked data, which should be readable.
+    Returns:
+        Unpacked data, which should be readable.
     """
     try:
         return struct.unpack(fmt, data)[0]

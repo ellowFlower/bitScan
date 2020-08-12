@@ -15,7 +15,9 @@ class Serializer(object):
     """Handles serialization and deserialization.
 
     Args:
-        to_addr ((str, int)): Address of the bitcoin node we connect to in the form (ip, port).
+        to_addr (tuple): tuple containing:
+            host (str): Host
+            port (int): Port
 
     Attributes:
         magic_number (str): Bitcoin networks magic number.
@@ -44,11 +46,11 @@ class Serializer(object):
 
         Args:
             command (str): The command type for the message. E.g: 'version'.
-            payload (struct.pack): Content is the already packed payload of the message
+            payload (bytes): Content is the already packed payload of the message
             test (bool): Indicate if the function is used in a test
 
         Returns:
-            The message as bytes which can be sent to a bitcoin node.
+            bytes: The message as bytes which can be sent to a bitcoin node.
         """
         checksum = sha256_util(sha256_util(payload))[:4]
 
@@ -66,10 +68,12 @@ class Serializer(object):
             the returned message is the service number and not a timestamp.
 
         Args:
-            addr ((str, int)): The address which is to be packed
+            addr (tuple): tuple containing:
+                host (str): Host
+                port (int): Port
 
         Returns:
-            The packed address
+            bytes: The packed address
         """
         if '.' in addr[0]:
             # ipv4; unused (12 bytes) + ipv4 (4 bytes) = ipv4-mapped ipv6 address
@@ -86,11 +90,15 @@ class Serializer(object):
         """Serialize the payload for a version message.
 
         Args:
-            to_addr ((str, int)): Source address
-            from_addr ((str, int)): Address of a bitcoin node
+            to_addr (tuple): tuple containing:
+                host (str): Host
+                port (int): Port
+            from_addr (tuple): tuple containing:
+                host (str): Host
+                port (int): Port
 
         Returns:
-            The packed address
+            bytes: The packed address
         """
         timestamp = int(time.time())
         source_addr = self.serialize_network_address(from_addr)
@@ -114,7 +122,7 @@ class Serializer(object):
             data (bytes): Header content
 
         Returns:
-            Dictionary with all the content from the header in a readable format.
+            dict: Dictionary with all the content from the header in a readable format.
         """
         data = BytesIO(data)
         return {'magic_number': data.read(4), 'command': data.read(12).strip(b"\x00").decode("latin-1"),
@@ -130,7 +138,7 @@ class Serializer(object):
             data (bytes): Payload content
 
         Returns:
-            Dictionary with all the content from the payload in a readable format.
+            dict: Dictionary with all the content from the payload in a readable format.
         """
         data = BytesIO(data)
         msg = {}
@@ -168,7 +176,7 @@ class Serializer(object):
             data (bytes): Payload content
 
         Returns:
-            Dictionary with all the content from the payload in a readable format.
+            dict: Dictionary with all the content from the payload in a readable format.
         """
         data = BytesIO(data)
         msg = {}
@@ -188,11 +196,11 @@ class Serializer(object):
             One of ipv4, ipv6 and onion has a value.
 
         Args:
-            data (BytesIO): Network address content.
+            data (bytes): Network address content.
             has_timestamp (bool): Indicates if a timestamp exists.
 
         Returns:
-            Dictionary with all the content from the network address in a readable format.
+            dict: Dictionary with all the content from the network address in a readable format.
         """
         timestamp = None
         if has_timestamp:
@@ -225,10 +233,10 @@ class Serializer(object):
         """Deserialize a string.
 
         Args:
-            data (BytesIO): Network address content.
+            data (bytes): Network address content.
 
         Returns:
-            Dictionary with all the content from the network address in a readable format.
+            dict: Dictionary with all the content from the network address in a readable format.
         """
         length = self.deserialize_int(data)
         return data.read(length).decode('utf-8')
@@ -236,10 +244,10 @@ class Serializer(object):
     def deserialize_int(self, data):
         """
         Args:
-            data (BytesIO): Network address content.
+            data (bytes): Network address content.
 
         Returns:
-            Length of given data
+            int: Length of given data
         """
         length = unpack_util("<B", data.read(1))
         if length == 0xFD:
