@@ -1,8 +1,9 @@
 import logging
 import csv
+import socket
 
 from bitScan.connection import Connection
-from bitScan.exception import ConnectionError
+from bitScan.exception import *
 
 def main():
     """Create a connection and send getaddr message to the bitcoin nodes which address is read from a csv file.
@@ -24,14 +25,13 @@ def main():
         # conn = Connection(('127.0.0.1', 18444))
         try:
             conn.open()
-            a = conn.handshake()
+            conn.handshake()
             conn.getaddr_addr()
 
-        except (ConnectionError) as err:
+        except (PayloadTooShortError, ConnectionError, socket.error, InvalidPayloadChecksum) as err:
             logging.error("Error occured: {}".format(err))
 
         conn.close()
-
 
 if __name__ == '__main__':
     main()

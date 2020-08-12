@@ -1,14 +1,9 @@
-import binascii
-import struct
 import logging
-import struct
 import time
 import socket
 import random
-import hashlib
-from io import StringIO, BytesIO, BufferedIOBase
-from binascii import unhexlify, hexlify
-from base64 import b32decode, b32encode
+from io import BytesIO
+from base64 import b32encode
 
 from bitScan.utils import *
 from bitScan.exception import *
@@ -66,13 +61,26 @@ class Serializer(object):
     def serialize_network_address(self, addr):
         """Serialize (pack) a network address.
 
+        Note:
+            This function is only used by for sending a version message. Therefore the first entry in
+            the returned message is the service number and not a timestamp.
+
         Args:
             addr ((str, int)): The address which is to be packed
 
         Returns:
             The packed address
         """
-        return struct.pack("<Q", 1) + struct.pack('>16sH', bytearray.fromhex("00000000000000000000ffff") + socket.inet_aton(addr[0]), addr[1])
+        if '.' in addr[0]:
+            # ipv4; unused (12 bytes) + ipv4 (4 bytes) = ipv4-mapped ipv6 address
+            host = bytearray.fromhex("00000000000000000000ffff") + socket.inet_aton(addr[0])
+        elif ':' in addr[0] and not addr[0].endswith('.onion'):
+            # ipv6; ipv6 (16 bytes)
+            host = socket.inet_pton(socket.AF_INET6, addr[0])
+        else:
+            raise ConnectionError("Host is in the wrong format. Must be ipv4 or ipv6 but is {}".format(addr[0]))
+
+        return struct.pack("<Q", 1) + struct.pack('>16sH', host, addr[1])
 
     def serialize_version_payload(self, to_addr, from_addr, test=False):
         """Serialize the payload for a version message.
@@ -169,24 +177,6 @@ class Serializer(object):
         msg['addr_list'] = []
         for _ in range(msg['count']):
             msg['addr_list'].append(self.deserialize_network_address(data, has_timestamp=True))
-
-        return msg
-
-    # TODO do we need this function???
-    def deserialize_verack_payload(self, data):
-        """Deserialize verack payload.
-
-        Note:
-            payload contains: version, services, timestamp, to_addr, from_addr, nonce, user agent, height, relay
-
-        Args:
-            data (bytes): Payload content
-
-        Returns:
-            Dictionary with all the content from the payload in a readable format.
-        """
-        data = BytesIO(data)
-        msg = {}
 
         return msg
 

@@ -1,12 +1,12 @@
 import socket
 import logging
-import time
+from binascii import hexlify
 
 from collections import deque
 from io import BytesIO
 from bitScan.serializer import Serializer
 from bitScan.utils import *
-from bitScan.exception import PayloadTooShortError, RemoteHostClosedConnection
+from bitScan.exception import PayloadTooShortError
 
 
 
@@ -40,11 +40,9 @@ class Connection(object):
             through self.socket.
         """
         logging.info('Open connection.')
+        # works for ipv4 and ipv6
+        self.socket = socket.create_connection(self.to_addr)
 
-        try:
-            self.socket = socket.create_connection(self.to_addr)
-        except (socket.error) as err:
-            logging.error("Error occured: {}".format(err))
 
     def close(self):
         logging.info("Close connection if active.")
@@ -66,8 +64,8 @@ class Connection(object):
         msg = self.serializer.create_message('version', payload_version)
         self.socket.sendall(msg)
 
-        # <<< [version 124 bytes] [verack 24 bytes]
-        return self.get_messages(length=148, commands=['version', 'verack'])
+        # <<< [header version 24 bytes][version 102 bytes] [verack 24 bytes]
+        return self.get_messages(length=150, commands=['version', 'verack'])
 
     def getaddr_addr(self):
         """Send getaddr and then receive addr message.
@@ -82,107 +80,59 @@ class Connection(object):
 
         # addr
         logging.info("Receive addr.")
-        a = self.recv_addr()
-        print(a)
-        return a
+        return self.get_messages(commands=['addr'])
 
-    # TODO refactor (version and getaddr message)
     def get_messages(self, length=0, commands=None):
-        """Receive data from a bitcoin node.
+        """Receive data.
 
         Note:
             More than one message can be received. When receiving a verack message there is no payload,
             therefore only the header has to be deserialized.
             If a version message is received, send a verack message immediately.
-            Because it is possible, that we receive more than the messages we want to handle further, we
-            filter the response in the end.
 
         Args:
             length (int): Number of how many bytes we want to read.
-            commands (list): List of the type of the message(s) we want to receive.
+            commands (list): List of the type of the message(s) we want to receive. If 'addr' is in it, it must be the
+            only entry.
 
         Returns:
             A readable format of all message we got. [msg1, msg2, ...]
             msg = {<headerValues>, <payload>}
         """
-        data = self.recv(length)
-        data = BytesIO(data)
+        data = b''
         msgs = []
 
-        # read until buffer is empty or after addr message is read (because we don't know the size)
-        while length > 0:
+        while length > 0 or commands[0] == 'addr':
             # header
-            msg = self.serializer.deserialize_header(data.read(HEADER_LEN))
-
-            # payload
-            if msg['command'] == 'version':
-                msg.update({'payload':self.serializer.deserialize_version_payload(data.read(msg['length']))})
-                self.socket.sendall(self.serializer.create_message('verack', b''))
-            elif msg['command'] == 'addr':
-                msg.update({'payload':self.serializer.deserialize_addr_payload(data.read(msg['length']))})
-                break
-
-            msgs.append(msg)
-            length -= (HEADER_LEN + msg['length'])
-
-        # filter response
-        if len(msgs) > 0 and commands:
-            msgs[:] = [m for m in msgs if m.get('command') in commands]
-
-        return msgs
-
-    def recv(self, length=0):
-        """Receive length data from a socket.
-
-        Args:
-            length (int): number of how many bytes we want to read
-
-        Returns:
-            The receive data in bytes.
-        """
-        if length > 0:
-            data = b''
-            # receive until length for wanted message is reached
-            while length > 0:
-                chunk = self.socket.recv(SOCKET_BUFSIZE)
-
-                if not chunk:
-                    raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
-
-                data += chunk
-                length -= len(chunk)
-        else:
-            data = self.socket.recv(SOCKET_BUFSIZE)
-
-            if not data:
-                raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
-
-        return data
-
-    def recv_addr(self):
-        """Receive data until addr message ocurs. Then return addr message.
-
-        Note:
-             An addr message it at most 30000 bytes long.
-        """
-        data = b''
-        msg = []
-        while True:
             chunk = self.socket.recv(HEADER_LEN)
             data = BytesIO(chunk)
 
-            helper = self.serializer.deserialize_header(data.read(HEADER_LEN))
+            msg = self.serializer.deserialize_header(data.read(HEADER_LEN))
+
+            if (length - HEADER_LEN) < msg['length'] and commands[0] != 'addr':
+                raise PayloadTooShortError("Payload is to short. Got {} of {} bytes".format(length, HEADER_LEN + msg['length']))
+
+            # payload
+            chunk = self.socket.recv(msg['length'])
+            data = BytesIO(chunk)
+            payload = data.read(msg['length'])
+
+            computed_checksum = sha256_util(sha256_util(payload))[:4]
+            if computed_checksum != msg['checksum']:
+                raise InvalidPayloadChecksum("Invalid checksum. {} != {}".format(hexlify(computed_checksum), hexlify(msg['checksum'])))
 
             # check if addr message
-            if helper['command'] == 'addr':
-                msg = helper
-                chunk = self.socket.recv(msg['length'])
-                data = BytesIO(chunk)
-                msg.update({'payload': self.serializer.deserialize_addr_payload(data.read(msg['length']))})
+            if msg['command'] == 'addr':
+                msg.update({'payload': self.serializer.deserialize_addr_payload(payload)})
+                msgs.append(msg)
                 break
-            else:
-                chunk = self.socket.recv(helper['length'])
-                data = BytesIO(chunk)
-                not_used = data.read(helper['length'])
+            elif msg['command'] == 'version':
+                msg.update({'payload':self.serializer.deserialize_version_payload(payload)})
+                msgs.append(msg)
+                self.socket.sendall(self.serializer.create_message('verack', b''))
+            elif msg['command'] == 'verack':
+                msgs.append(msg)
 
-        return msg
+            length -= (HEADER_LEN + msg['length'])
+
+        return msgs
