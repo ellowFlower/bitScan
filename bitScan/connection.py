@@ -4,6 +4,8 @@ from binascii import hexlify
 
 from collections import deque
 from io import BytesIO
+import time
+
 from bitScan.serializer import Serializer
 from bitScan.utils import *
 from bitScan.exception import PayloadTooShortError
@@ -107,7 +109,9 @@ class Connection(object):
 
         while length > 0 or commands[0] == 'addr':
             # header
+            print('receive header')
             chunk = self.socket.recv(HEADER_LEN)
+            print('receive header')
             data = BytesIO(chunk)
 
             msg = self.serializer.deserialize_header(data.read(HEADER_LEN))
@@ -116,6 +120,7 @@ class Connection(object):
                 raise PayloadTooShortError("Payload is to short. Got {} of {} bytes".format(length, HEADER_LEN + msg['length']))
 
             # payload
+            print('receive payload')
             chunk = self.socket.recv(msg['length'])
             data = BytesIO(chunk)
             payload = data.read(msg['length'])

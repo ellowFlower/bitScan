@@ -26,7 +26,7 @@ class Serializer(object):
     def __init__(self):
         logging.info('Create serialize object.')
         # TODO change if running on real network
-        self.magic_number = 0xd9b4bef9  # 0xd9b4bef9 0xfabfb5da 0x0b110907
+        self.magic_number = 0xfabfb5da  # 0xd9b4bef9 0xfabfb5da 0x0b110907
         self.protocol_version = 70015
         self.to_services = 1
         self.from_services = 0

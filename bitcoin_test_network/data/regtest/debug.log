@@ -2263,3 +2263,310 @@
 2020-08-10T18:32:55Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
 2020-08-10T18:32:55Z [default wallet] Releasing wallet
 2020-08-10T18:32:55Z Shutdown: done
+
+
+
+
+
+2020-08-12T14:55:20Z Bitcoin Core version v0.20.0 (release build)
+2020-08-12T14:55:20Z Validating signatures for all blocks.
+2020-08-12T14:55:20Z Setting nMinimumChainWork=0000000000000000000000000000000000000000000000000000000000000000
+2020-08-12T14:55:20Z Using the 'sse4(1way),sse41(4way),avx2(8way)' SHA256 implementation
+2020-08-12T14:55:20Z Using RdSeed as additional entropy source
+2020-08-12T14:55:20Z Using RdRand as an additional entropy source
+2020-08-12T14:55:20Z Default data directory /home/martin/.bitcoin
+2020-08-12T14:55:20Z Using data directory /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest
+2020-08-12T14:55:20Z Config file: /home/martin/PycharmProjects/bitScan/bitcoin_test_network/bitcoin.conf
+2020-08-12T14:55:20Z Config file arg: regtest="1"
+2020-08-12T14:55:20Z Config file arg: rpcpassword=****
+2020-08-12T14:55:20Z Config file arg: rpcuser=****
+2020-08-12T14:55:20Z Command-line arg: conf="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/bitcoin.conf"
+2020-08-12T14:55:20Z Command-line arg: daemon=""
+2020-08-12T14:55:20Z Command-line arg: datadir="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data"
+2020-08-12T14:55:20Z Command-line arg: port="18444"
+2020-08-12T14:55:20Z Using at most 125 automatic connections (1048576 file descriptors available)
+2020-08-12T14:55:20Z Using 16 MiB out of 32/2 requested for signature cache, able to store 524288 elements
+2020-08-12T14:55:20Z Using 16 MiB out of 32/2 requested for script execution cache, able to store 524288 elements
+2020-08-12T14:55:20Z Script verification uses 3 additional threads
+2020-08-12T14:55:20Z scheduler thread start
+2020-08-12T14:55:20Z HTTP: creating work queue of depth 16
+2020-08-12T14:55:20Z Config options rpcuser and rpcpassword will soon be deprecated. Locally-run instances may remove rpcuser to use cookie-based auth, or may be replaced with rpcauth. Please see share/rpcauth for rpcauth auth generation.
+2020-08-12T14:55:20Z HTTP: starting 4 worker threads
+2020-08-12T14:55:20Z Using wallet directory /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets
+2020-08-12T14:55:20Z init message: Verifying wallet(s)...
+2020-08-12T14:55:20Z Using BerkeleyDB version Berkeley DB 4.8.30: (April  9, 2010)
+2020-08-12T14:55:20Z Using wallet /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets
+2020-08-12T14:55:20Z BerkeleyEnvironment::Open: LogDir=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/database ErrorFile=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/db.log
+2020-08-12T14:55:20Z init message: Loading banlist...
+2020-08-12T14:55:20Z Using /16 prefix for IP bucketing
+2020-08-12T14:55:20Z Cache configuration:
+2020-08-12T14:55:20Z * Using 2.0 MiB for block index database
+2020-08-12T14:55:20Z * Using 8.0 MiB for chain state database
+2020-08-12T14:55:20Z * Using 440.0 MiB for in-memory UTXO set (plus up to 286.1 MiB of unused mempool space)
+2020-08-12T14:55:20Z init message: Loading block index...
+2020-08-12T14:55:20Z Opening LevelDB in /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/blocks/index
+2020-08-12T14:55:20Z Opened LevelDB successfully
+2020-08-12T14:55:20Z Using obfuscation key for /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/blocks/index: 0000000000000000
+2020-08-12T14:55:20Z LoadBlockIndexDB: last block file = 0
+2020-08-12T14:55:20Z LoadBlockIndexDB: last block file info: CBlockFileInfo(blocks=1, size=293, heights=0...0, time=2011-02-02...2011-02-02)
+2020-08-12T14:55:20Z Checking all blk files are present...
+2020-08-12T14:55:20Z Opening LevelDB in /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/chainstate
+2020-08-12T14:55:20Z Opened LevelDB successfully
+2020-08-12T14:55:20Z Using obfuscation key for /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/chainstate: 8300b9bb791620cc
+2020-08-12T14:55:20Z Loaded best chain: hashBestChain=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206 height=0 date=2011-02-02T23:16:42Z progress=1.000000
+2020-08-12T14:55:20Z init message: Rewinding blocks...
+2020-08-12T14:55:20Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-12T14:55:20Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-12T14:55:20Z init message: Verifying blocks...
+2020-08-12T14:55:20Z  block index              75ms
+2020-08-12T14:55:20Z init message: Loading wallet...
+2020-08-12T14:55:20Z BerkeleyEnvironment::Open: LogDir=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/database ErrorFile=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/db.log
+2020-08-12T14:55:20Z [default wallet] Wallet File Version = 169900
+2020-08-12T14:55:20Z [default wallet] Keys: 2001 plaintext, 0 encrypted, 2001 w/ metadata, 2001 total. Unknown wallet records: 0
+2020-08-12T14:55:20Z [default wallet] Wallet completed loading in              96ms
+2020-08-12T14:55:20Z [default wallet] setKeyPool.size() = 2000
+2020-08-12T14:55:20Z [default wallet] mapWallet.size() = 0
+2020-08-12T14:55:20Z [default wallet] m_address_book.size() = 0
+2020-08-12T14:55:20Z block tree size = 1
+2020-08-12T14:55:20Z nBestHeight = 0
+2020-08-12T14:55:20Z Imported mempool transactions from disk: 0 succeeded, 0 failed, 0 expired, 0 already there
+2020-08-12T14:55:20Z torcontrol thread start
+2020-08-12T14:55:20Z Bound to [::]:18444
+2020-08-12T14:55:20Z Bound to 0.0.0.0:18444
+2020-08-12T14:55:20Z init message: Loading P2P addresses...
+2020-08-12T14:55:20Z Loaded 0 addresses from peers.dat  1ms
+2020-08-12T14:55:20Z init message: Starting network threads...
+2020-08-12T14:55:20Z net thread start
+2020-08-12T14:55:20Z dnsseed thread start
+2020-08-12T14:55:20Z 0 addresses found from DNS seeds
+2020-08-12T14:55:20Z dnsseed thread exit
+2020-08-12T14:55:20Z init message: Done loading
+2020-08-12T14:55:20Z addcon thread start
+2020-08-12T14:55:20Z opencon thread start
+2020-08-12T14:55:20Z msghand thread start
+2020-08-12T14:55:22Z New outbound peer connected: version: 70015, blocks=0, peer=0 (full-relay)
+2020-08-12T14:55:23Z New outbound peer connected: version: 70015, blocks=0, peer=1 (full-relay)
+2020-08-12T14:56:21Z Adding fixed seed nodes as DNS doesn't seem to be available.
+2020-08-12T15:18:43Z Timeout downloading headers from peer=0, disconnecting
+2020-08-12T15:18:43Z New outbound peer connected: version: 70015, blocks=0, peer=3 (full-relay)
+2020-08-12T15:27:35Z Potential stale tip detected, will try using extra outbound peer (last tip update: 1890 seconds ago)
+2020-08-12T15:38:05Z Potential stale tip detected, will try using extra outbound peer (last tip update: 2520 seconds ago)
+2020-08-12T15:42:04Z Timeout downloading headers from peer=1, disconnecting
+2020-08-12T15:42:06Z New outbound peer connected: version: 70015, blocks=0, peer=4 (full-relay)
+2020-08-12T15:43:37Z tor: Thread interrupt
+2020-08-12T15:43:37Z torcontrol thread exit
+2020-08-12T15:43:37Z Shutdown: In progress...
+2020-08-12T15:43:37Z opencon thread exit
+2020-08-12T15:43:37Z addcon thread exit
+2020-08-12T15:43:37Z net thread exit
+2020-08-12T15:43:37Z msghand thread exit
+2020-08-12T15:43:37Z scheduler thread exit
+2020-08-12T15:43:37Z Dumped mempool: 1.2e-05s to copy, 0.15215s to dump
+2020-08-12T15:43:37Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-12T15:43:37Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-12T15:43:37Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-12T15:43:37Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-12T15:43:37Z [default wallet] Releasing wallet
+2020-08-12T15:43:37Z Shutdown: done
+
+
+
+
+
+2020-08-13T09:14:21Z Bitcoin Core version v0.20.0 (release build)
+2020-08-13T09:14:21Z Validating signatures for all blocks.
+2020-08-13T09:14:21Z Setting nMinimumChainWork=0000000000000000000000000000000000000000000000000000000000000000
+2020-08-13T09:14:21Z Using the 'sse4(1way),sse41(4way),avx2(8way)' SHA256 implementation
+2020-08-13T09:14:21Z Using RdSeed as additional entropy source
+2020-08-13T09:14:21Z Using RdRand as an additional entropy source
+2020-08-13T09:14:21Z Default data directory /home/martin/.bitcoin
+2020-08-13T09:14:21Z Using data directory /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest
+2020-08-13T09:14:21Z Config file: /home/martin/PycharmProjects/bitScan/bitcoin_test_network/bitcoin.conf
+2020-08-13T09:14:21Z Config file arg: regtest="1"
+2020-08-13T09:14:21Z Config file arg: rpcpassword=****
+2020-08-13T09:14:21Z Config file arg: rpcuser=****
+2020-08-13T09:14:21Z Command-line arg: conf="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/bitcoin.conf"
+2020-08-13T09:14:21Z Command-line arg: daemon=""
+2020-08-13T09:14:21Z Command-line arg: datadir="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data"
+2020-08-13T09:14:21Z Command-line arg: port="18444"
+2020-08-13T09:14:21Z Using at most 125 automatic connections (1048576 file descriptors available)
+2020-08-13T09:14:21Z Using 16 MiB out of 32/2 requested for signature cache, able to store 524288 elements
+2020-08-13T09:14:21Z Using 16 MiB out of 32/2 requested for script execution cache, able to store 524288 elements
+2020-08-13T09:14:21Z Script verification uses 3 additional threads
+2020-08-13T09:14:21Z scheduler thread start
+2020-08-13T09:14:21Z HTTP: creating work queue of depth 16
+2020-08-13T09:14:21Z Config options rpcuser and rpcpassword will soon be deprecated. Locally-run instances may remove rpcuser to use cookie-based auth, or may be replaced with rpcauth. Please see share/rpcauth for rpcauth auth generation.
+2020-08-13T09:14:21Z HTTP: starting 4 worker threads
+2020-08-13T09:14:21Z Using wallet directory /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets
+2020-08-13T09:14:21Z init message: Verifying wallet(s)...
+2020-08-13T09:14:21Z Using BerkeleyDB version Berkeley DB 4.8.30: (April  9, 2010)
+2020-08-13T09:14:21Z Using wallet /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets
+2020-08-13T09:14:21Z BerkeleyEnvironment::Open: LogDir=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/database ErrorFile=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/db.log
+2020-08-13T09:14:21Z init message: Loading banlist...
+2020-08-13T09:14:21Z Using /16 prefix for IP bucketing
+2020-08-13T09:14:21Z Cache configuration:
+2020-08-13T09:14:21Z * Using 2.0 MiB for block index database
+2020-08-13T09:14:21Z * Using 8.0 MiB for chain state database
+2020-08-13T09:14:21Z * Using 440.0 MiB for in-memory UTXO set (plus up to 286.1 MiB of unused mempool space)
+2020-08-13T09:14:21Z init message: Loading block index...
+2020-08-13T09:14:21Z Opening LevelDB in /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/blocks/index
+2020-08-13T09:14:21Z Opened LevelDB successfully
+2020-08-13T09:14:21Z Using obfuscation key for /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/blocks/index: 0000000000000000
+2020-08-13T09:14:21Z LoadBlockIndexDB: last block file = 0
+2020-08-13T09:14:21Z LoadBlockIndexDB: last block file info: CBlockFileInfo(blocks=1, size=293, heights=0...0, time=2011-02-02...2011-02-02)
+2020-08-13T09:14:21Z Checking all blk files are present...
+2020-08-13T09:14:21Z Opening LevelDB in /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/chainstate
+2020-08-13T09:14:21Z Opened LevelDB successfully
+2020-08-13T09:14:21Z Using obfuscation key for /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/chainstate: 8300b9bb791620cc
+2020-08-13T09:14:21Z Loaded best chain: hashBestChain=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206 height=0 date=2011-02-02T23:16:42Z progress=1.000000
+2020-08-13T09:14:21Z init message: Rewinding blocks...
+2020-08-13T09:14:21Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-13T09:14:21Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-13T09:14:21Z init message: Verifying blocks...
+2020-08-13T09:14:21Z  block index              94ms
+2020-08-13T09:14:21Z init message: Loading wallet...
+2020-08-13T09:14:21Z BerkeleyEnvironment::Open: LogDir=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/database ErrorFile=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/db.log
+2020-08-13T09:14:21Z [default wallet] Wallet File Version = 169900
+2020-08-13T09:14:21Z [default wallet] Keys: 2001 plaintext, 0 encrypted, 2001 w/ metadata, 2001 total. Unknown wallet records: 0
+2020-08-13T09:14:21Z [default wallet] Wallet completed loading in             180ms
+2020-08-13T09:14:21Z [default wallet] setKeyPool.size() = 2000
+2020-08-13T09:14:21Z [default wallet] mapWallet.size() = 0
+2020-08-13T09:14:21Z [default wallet] m_address_book.size() = 0
+2020-08-13T09:14:21Z block tree size = 1
+2020-08-13T09:14:21Z nBestHeight = 0
+2020-08-13T09:14:21Z torcontrol thread start
+2020-08-13T09:14:21Z Bound to [::]:18444
+2020-08-13T09:14:21Z Bound to 0.0.0.0:18444
+2020-08-13T09:14:21Z init message: Loading P2P addresses...
+2020-08-13T09:14:21Z Imported mempool transactions from disk: 0 succeeded, 0 failed, 0 expired, 0 already there
+2020-08-13T09:14:21Z Loaded 0 addresses from peers.dat  1ms
+2020-08-13T09:14:21Z init message: Starting network threads...
+2020-08-13T09:14:21Z init message: Done loading
+2020-08-13T09:14:21Z net thread start
+2020-08-13T09:14:21Z addcon thread start
+2020-08-13T09:14:21Z opencon thread start
+2020-08-13T09:14:21Z msghand thread start
+2020-08-13T09:14:21Z dnsseed thread start
+2020-08-13T09:14:21Z 0 addresses found from DNS seeds
+2020-08-13T09:14:21Z dnsseed thread exit
+2020-08-13T09:14:34Z tor: Thread interrupt
+2020-08-13T09:14:34Z addcon thread exit
+2020-08-13T09:14:34Z torcontrol thread exit
+2020-08-13T09:14:34Z opencon thread exit
+2020-08-13T09:14:34Z Shutdown: In progress...
+2020-08-13T09:14:34Z msghand thread exit
+2020-08-13T09:14:34Z net thread exit
+2020-08-13T09:14:34Z scheduler thread exit
+2020-08-13T09:14:34Z Dumped mempool: 0.0001s to copy, 0.014549s to dump
+2020-08-13T09:14:34Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-13T09:14:34Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-13T09:14:35Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-13T09:14:35Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-13T09:14:35Z [default wallet] Releasing wallet
+2020-08-13T09:14:35Z Shutdown: done
+
+
+
+
+
+2020-08-13T09:14:39Z Bitcoin Core version v0.20.0 (release build)
+2020-08-13T09:14:39Z Validating signatures for all blocks.
+2020-08-13T09:14:39Z Setting nMinimumChainWork=0000000000000000000000000000000000000000000000000000000000000000
+2020-08-13T09:14:39Z Using the 'sse4(1way),sse41(4way),avx2(8way)' SHA256 implementation
+2020-08-13T09:14:39Z Using RdSeed as additional entropy source
+2020-08-13T09:14:39Z Using RdRand as an additional entropy source
+2020-08-13T09:14:39Z Default data directory /home/martin/.bitcoin
+2020-08-13T09:14:39Z Using data directory /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest
+2020-08-13T09:14:39Z Config file: /home/martin/PycharmProjects/bitScan/bitcoin_test_network/bitcoin.conf
+2020-08-13T09:14:39Z Config file arg: regtest="1"
+2020-08-13T09:14:39Z Config file arg: rpcpassword=****
+2020-08-13T09:14:39Z Config file arg: rpcuser=****
+2020-08-13T09:14:39Z Command-line arg: conf="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/bitcoin.conf"
+2020-08-13T09:14:39Z Command-line arg: daemon=""
+2020-08-13T09:14:39Z Command-line arg: datadir="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data"
+2020-08-13T09:14:39Z Command-line arg: port="18444"
+2020-08-13T09:14:39Z Using at most 125 automatic connections (1048576 file descriptors available)
+2020-08-13T09:14:39Z Using 16 MiB out of 32/2 requested for signature cache, able to store 524288 elements
+2020-08-13T09:14:39Z Using 16 MiB out of 32/2 requested for script execution cache, able to store 524288 elements
+2020-08-13T09:14:39Z Script verification uses 3 additional threads
+2020-08-13T09:14:39Z scheduler thread start
+2020-08-13T09:14:39Z HTTP: creating work queue of depth 16
+2020-08-13T09:14:39Z Config options rpcuser and rpcpassword will soon be deprecated. Locally-run instances may remove rpcuser to use cookie-based auth, or may be replaced with rpcauth. Please see share/rpcauth for rpcauth auth generation.
+2020-08-13T09:14:39Z HTTP: starting 4 worker threads
+2020-08-13T09:14:39Z Using wallet directory /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets
+2020-08-13T09:14:39Z init message: Verifying wallet(s)...
+2020-08-13T09:14:39Z Using BerkeleyDB version Berkeley DB 4.8.30: (April  9, 2010)
+2020-08-13T09:14:39Z Using wallet /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets
+2020-08-13T09:14:39Z BerkeleyEnvironment::Open: LogDir=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/database ErrorFile=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/db.log
+2020-08-13T09:14:39Z init message: Loading banlist...
+2020-08-13T09:14:39Z Using /16 prefix for IP bucketing
+2020-08-13T09:14:39Z Cache configuration:
+2020-08-13T09:14:39Z * Using 2.0 MiB for block index database
+2020-08-13T09:14:39Z * Using 8.0 MiB for chain state database
+2020-08-13T09:14:39Z * Using 440.0 MiB for in-memory UTXO set (plus up to 286.1 MiB of unused mempool space)
+2020-08-13T09:14:39Z init message: Loading block index...
+2020-08-13T09:14:39Z Opening LevelDB in /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/blocks/index
+2020-08-13T09:14:39Z Opened LevelDB successfully
+2020-08-13T09:14:39Z Using obfuscation key for /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/blocks/index: 0000000000000000
+2020-08-13T09:14:39Z LoadBlockIndexDB: last block file = 0
+2020-08-13T09:14:39Z LoadBlockIndexDB: last block file info: CBlockFileInfo(blocks=1, size=293, heights=0...0, time=2011-02-02...2011-02-02)
+2020-08-13T09:14:39Z Checking all blk files are present...
+2020-08-13T09:14:39Z Opening LevelDB in /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/chainstate
+2020-08-13T09:14:39Z Opened LevelDB successfully
+2020-08-13T09:14:39Z Using obfuscation key for /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/chainstate: 8300b9bb791620cc
+2020-08-13T09:14:39Z Loaded best chain: hashBestChain=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206 height=0 date=2011-02-02T23:16:42Z progress=1.000000
+2020-08-13T09:14:39Z init message: Rewinding blocks...
+2020-08-13T09:14:39Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-13T09:14:39Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-13T09:14:39Z init message: Verifying blocks...
+2020-08-13T09:14:39Z  block index              59ms
+2020-08-13T09:14:39Z init message: Loading wallet...
+2020-08-13T09:14:39Z BerkeleyEnvironment::Open: LogDir=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/database ErrorFile=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/db.log
+2020-08-13T09:14:40Z [default wallet] Wallet File Version = 169900
+2020-08-13T09:14:40Z [default wallet] Keys: 2001 plaintext, 0 encrypted, 2001 w/ metadata, 2001 total. Unknown wallet records: 0
+2020-08-13T09:14:40Z [default wallet] Wallet completed loading in              69ms
+2020-08-13T09:14:40Z [default wallet] setKeyPool.size() = 2000
+2020-08-13T09:14:40Z [default wallet] mapWallet.size() = 0
+2020-08-13T09:14:40Z [default wallet] m_address_book.size() = 0
+2020-08-13T09:14:40Z block tree size = 1
+2020-08-13T09:14:40Z nBestHeight = 0
+2020-08-13T09:14:40Z Imported mempool transactions from disk: 0 succeeded, 0 failed, 0 expired, 0 already there
+2020-08-13T09:14:40Z torcontrol thread start
+2020-08-13T09:14:40Z Bound to [::]:18444
+2020-08-13T09:14:40Z Bound to 0.0.0.0:18444
+2020-08-13T09:14:40Z init message: Loading P2P addresses...
+2020-08-13T09:14:40Z Loaded 0 addresses from peers.dat  1ms
+2020-08-13T09:14:40Z init message: Starting network threads...
+2020-08-13T09:14:40Z net thread start
+2020-08-13T09:14:40Z dnsseed thread start
+2020-08-13T09:14:40Z addcon thread start
+2020-08-13T09:14:40Z 0 addresses found from DNS seeds
+2020-08-13T09:14:40Z opencon thread start
+2020-08-13T09:14:40Z dnsseed thread exit
+2020-08-13T09:14:40Z init message: Done loading
+2020-08-13T09:14:40Z msghand thread start
+2020-08-13T09:14:42Z New outbound peer connected: version: 70015, blocks=0, peer=0 (full-relay)
+2020-08-13T09:14:42Z New outbound peer connected: version: 70015, blocks=0, peer=1 (full-relay)
+2020-08-13T09:15:41Z Adding fixed seed nodes as DNS doesn't seem to be available.
+2020-08-13T09:38:03Z Timeout downloading headers from peer=0, disconnecting
+2020-08-13T09:38:03Z New outbound peer connected: version: 70015, blocks=0, peer=4 (full-relay)
+2020-08-13T09:46:54Z Potential stale tip detected, will try using extra outbound peer (last tip update: 1890 seconds ago)
+2020-08-13T09:57:24Z Potential stale tip detected, will try using extra outbound peer (last tip update: 2520 seconds ago)
+2020-08-13T10:01:24Z Timeout downloading headers from peer=1, disconnecting
+2020-08-13T10:01:25Z New outbound peer connected: version: 70015, blocks=0, peer=12 (full-relay)
+2020-08-13T10:07:54Z Potential stale tip detected, will try using extra outbound peer (last tip update: 3150 seconds ago)
+2020-08-13T10:13:00Z tor: Thread interrupt
+2020-08-13T10:13:00Z Shutdown: In progress...
+2020-08-13T10:13:00Z addcon thread exit
+2020-08-13T10:13:00Z opencon thread exit
+2020-08-13T10:13:00Z torcontrol thread exit
+2020-08-13T10:13:00Z msghand thread exit
+2020-08-13T10:13:00Z net thread exit
+2020-08-13T10:13:00Z scheduler thread exit
+2020-08-13T10:13:00Z Dumped mempool: 3e-06s to copy, 0.011964s to dump
+2020-08-13T10:13:01Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-13T10:13:01Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-13T10:13:01Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-13T10:13:01Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-13T10:13:01Z [default wallet] Releasing wallet
+2020-08-13T10:13:01Z Shutdown: done

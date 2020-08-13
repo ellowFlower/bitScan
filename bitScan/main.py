@@ -22,12 +22,12 @@ def main():
             addresses.extend(row)
 
     for address in addresses:
-        conn = Connection((address, 8333))
-        # conn = Connection(('127.0.0.1', 18444))
+        conn = Connection(('138.68.87.99', 8333))
+        # conn = Connection(('127.0.0.1', 18444)) 88.99.167.175,
         try:
             conn.open()
-            conn.handshake()
-            conn.getaddr_addr()
+            print(conn.handshake())
+            print(conn.getaddr_addr())
 
         except (PayloadTooShortError, ConnectionError, socket.error, InvalidPayloadChecksum) as err:
             logging.error("Error occured: {}".format(err))
