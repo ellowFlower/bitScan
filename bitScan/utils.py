@@ -5,6 +5,8 @@ from bitScan.exception import *
 ONION_PREFIX = "\xFD\x87\xD8\x7E\xEB\x43"  # ipv6 prefix for .onion address
 HEADER_LEN = 24
 MIN_PROTOCOL_VERSION = 70001
+SOCKET_BUFFER = 8192
+MAGIC_NUMBER_COMPARE = b'\xf9\xbe\xb4\xd9'
 
 
 def create_sub_version():
@@ -37,5 +39,5 @@ def unpack_util(fmt, data, str = ''):
     try:
         return struct.unpack(fmt, data)[0]
     except struct.error as err:
-        raise ReadError(err)
+        raise MessageContentError(err)
 

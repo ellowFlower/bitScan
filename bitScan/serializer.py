@@ -22,20 +22,17 @@ class Serializer(object):
     Attributes:
         magic_number (str): Bitcoin networks magic number.
         protocol_version (int): Bitcoin protocol version.
+        height (int): Indicates which block our node is synced up to.
     """
     def __init__(self):
         logging.info('Create serialize object.')
         # TODO change if running on real network
-        self.magic_number = 0xfabfb5da  # 0xd9b4bef9 0xfabfb5da 0x0b110907
+        self.magic_number = 0xd9b4bef9  # 0xd9b4bef9 0xfabfb5da 0x0b110907
         self.protocol_version = 70015
         self.to_services = 1
         self.from_services = 0
-        self.user_agent = '/bitnodes.io:0.1/'
-        self.height = 478000
+        self.height = 0
         self.relay = 0
-        # This is set prior to throwing PayloadTooShortError exception to
-        # allow caller to fetch more data over the network.
-        self.required_len = 0
 
     def create_message(self, command, payload, test=False):
         """Create full message which can be send to a bitcoin node.
@@ -110,7 +107,7 @@ class Serializer(object):
             nonce = 615169444417225228
 
         return struct.pack('<iQq26s26sQ16si?', self.protocol_version, self.from_services, timestamp, peer_addr,
-                              source_addr, nonce, create_sub_version(), 478000, 0)
+                              source_addr, nonce, create_sub_version(), self.height, self.relay)
 
     def deserialize_header(self, data):
         """Deserialize header of a message.
@@ -145,7 +142,7 @@ class Serializer(object):
 
         msg['version'] = unpack_util("<i", data.read(4))
         if msg['version'] < MIN_PROTOCOL_VERSION:
-            raise IncompatibleClientError("{} < {}".format(msg['version'], MIN_PROTOCOL_VERSION))
+            raise MessageContentError("The protocol version is to small. Minimum version is {} but it is {}".format(MIN_PROTOCOL_VERSION, msg['version']))
 
         msg['services'] = unpack_util("<Q", data.read(8))
         msg['timestamp'] = unpack_util("<q", data.read(8))
