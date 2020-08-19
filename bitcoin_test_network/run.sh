@@ -14,7 +14,7 @@ CONF_BOB="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/bob/bitcoin.
 DATA_BOB="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/bob/data"
 
 # Start the main node. Per default listen for connection on port 18444.
-bitcoind -port=18444 -conf=$CONF_MAIN -datadir=$DATA_MAIN -daemon
+bitcoind -port=18444 -conf=$CONF_MAIN -datadir=$DATA_MAIN -debug=1 -logips
 
 # node alice
 bitcoind -port=18445 -rpcport=8333 -conf=$CONF_ALICE -datadir=$DATA_ALICE -daemon

@@ -135,53 +135,54 @@ class Serializer(object):
             data (bytes): Payload content
 
         Returns:
-            dict: Dictionary with all the content from the payload in a readable format.
+            dict: timestamp and the address we receive the version message from
         """
         data = BytesIO(data)
         msg = {}
 
-        msg['version'] = unpack_util("<i", data.read(4))
-        if msg['version'] < MIN_PROTOCOL_VERSION:
-            raise MessageContentError("The protocol version is to small. Minimum version is {} but it is {}".format(MIN_PROTOCOL_VERSION, msg['version']))
-
-        msg['services'] = unpack_util("<Q", data.read(8))
+        # version; not used
+        unpack_util("<i", data.read(4))
+        # services; not used
+        unpack_util("<Q", data.read(8))
         msg['timestamp'] = unpack_util("<q", data.read(8))
-
-        msg['to_addr'] = self.deserialize_network_address(data)
+        # to_addr; not used (its us)
+        self.deserialize_network_address(data)
         msg['from_addr'] = self.deserialize_network_address(data)
-
-        msg['nonce'] = unpack_util("<Q", data.read(8))
-
-        msg['user_agent'] = self.deserialize_string(data)
-
-        msg['height'] = unpack_util("<i", data.read(4))
+        # nonce; not used
+        unpack_util("<Q", data.read(8))
+        # user agent; not used
+        self.deserialize_string(data)
+        # height; not used
+        unpack_util("<i", data.read(4))
 
         try:
-            msg['relay'] = struct.unpack("<?", data.read(1))[0]
+            # relay; not used
+            struct.unpack("<?", data.read(1))[0]
         except struct.error:
-            msg['relay'] = False
+            pass
 
         return msg
 
-    def deserialize_addr_payload(self, data):
+    def deserialize_addr_payload(self, data, current_time):
         """Deserialize addr payload.
 
         Note:
-            payload contains: count, one or multiple addresses
+            The original payload contains: count, one or multiple addresses
 
         Args:
             data (bytes): Payload content
+            current_time (float)
 
         Returns:
-            dict: Dictionary with all the content from the payload in a readable format.
+            str: Which contains for every address we got host, port, timestamp, time we received the addr message.
+                After each address is a newline. We append this string to a csv file.
         """
         data = BytesIO(data)
-        msg = {}
+        msg = ''
 
-        msg['count'] = self.deserialize_int(data)
-        msg['addr_list'] = []
-        for _ in range(msg['count']):
-            msg['addr_list'].append(self.deserialize_network_address(data, has_timestamp=True))
+        count = self.deserialize_int(data)
+        for _ in range(count):
+            msg += self.deserialize_network_address(data, has_timestamp=True) + ', ' + str(current_time) + '\n'
 
         return msg
 
@@ -197,7 +198,7 @@ class Serializer(object):
             has_timestamp (bool): Indicates if a timestamp exists.
 
         Returns:
-            dict: Dictionary with all the content from the network address in a readable format.
+            str: host, port, timestamp
         """
         timestamp = None
         if has_timestamp:
@@ -212,19 +213,21 @@ class Serializer(object):
 
         ipv4 = ""
         ipv6 = ""
-        onion = ""
 
         if _ipv6[:6] == ONION_PREFIX:
-            onion = b32encode(_ipv6[6:]).lower() + b".onion"  # use .onion
+            host = b32encode(_ipv6[6:]).lower() + b".onion"  # use .onion
         else:
             ipv6 = socket.inet_ntop(socket.AF_INET6, _ipv6)
             ipv4 = socket.inet_ntop(socket.AF_INET, _ipv4)
             if ipv4 in ipv6:
-                ipv6 = ""  # use ipv4
+                host = ipv4
             else:
-                ipv4 = ""  # use ipv6
+                host = ipv6
 
-        return {'timestamp': timestamp, 'services': services, 'ipv4': ipv4, 'ipv6': ipv6, 'onion': onion, 'port': port}
+        if has_timestamp:
+            return '{},{},{}'.format(host, port, timestamp)
+        else:
+            return '{},{}'.format(host, port)
 
     def deserialize_string(self, data):
         """Deserialize a string.

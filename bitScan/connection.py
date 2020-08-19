@@ -107,7 +107,7 @@ class Connection(object):
             A readable format of all message we got. [msg1, msg2, ...]
             msg = {<headerValues>, <payload>}
         """
-        data = self.recv(length)
+        data, current_time = self.recv(length)
         length = len(data)
         data = BytesIO(data)
         msgs = []
@@ -137,7 +137,8 @@ class Connection(object):
                 msg.update({'payload':self.serializer.deserialize_version_payload(payload)})
                 self.socket.sendall(self.serializer.create_message('verack', b''))
             elif msg['command'] == 'addr':
-                msg.update({'payload':self.serializer.deserialize_addr_payload(payload)})
+                # we get a string here
+                msg.update({'payload':self.serializer.deserialize_addr_payload(payload, current_time)})
             else:
                 unused_chunk = payload
 
@@ -162,8 +163,11 @@ class Connection(object):
             length (int): number of how many bytes we want to read
 
         Returns:
-            The receive data in bytes.
+            The receive data in bytes and the current time when receiving the data
         """
+        # TODO save time when receive message
+        # maybe this function is unecessary because when we listen for addr messages passively we also receive the messages
+        current_time = -1
         if length > 0:
             data = b''
             # receive until length for wanted message is reached
@@ -177,9 +181,11 @@ class Connection(object):
                 length -= len(chunk)
         else:
             # addr messages go here immediately
+            # time in seconds as floating point number; only relevant for addr messages
+            current_time = time.time()
             data = self.socket.recv(SOCKET_BUFFER)
 
             if not data:
                 raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
 
-        return data
+        return data, current_time

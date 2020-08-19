@@ -2570,3 +2570,696 @@
 2020-08-13T10:13:01Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
 2020-08-13T10:13:01Z [default wallet] Releasing wallet
 2020-08-13T10:13:01Z Shutdown: done
+
+
+
+
+
+2020-08-14T07:48:36Z Bitcoin Core version v0.20.0 (release build)
+2020-08-14T07:48:36Z Validating signatures for all blocks.
+2020-08-14T07:48:36Z Setting nMinimumChainWork=0000000000000000000000000000000000000000000000000000000000000000
+2020-08-14T07:48:36Z Using the 'sse4(1way),sse41(4way),avx2(8way)' SHA256 implementation
+2020-08-14T07:48:36Z Using RdSeed as additional entropy source
+2020-08-14T07:48:36Z Using RdRand as an additional entropy source
+2020-08-14T07:48:36Z Default data directory /home/martin/.bitcoin
+2020-08-14T07:48:36Z Using data directory /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest
+2020-08-14T07:48:36Z Config file: /home/martin/PycharmProjects/bitScan/bitcoin_test_network/bitcoin.conf
+2020-08-14T07:48:36Z Config file arg: regtest="1"
+2020-08-14T07:48:36Z Config file arg: rpcpassword=****
+2020-08-14T07:48:36Z Config file arg: rpcuser=****
+2020-08-14T07:48:36Z Command-line arg: conf="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/bitcoin.conf"
+2020-08-14T07:48:36Z Command-line arg: daemon=""
+2020-08-14T07:48:36Z Command-line arg: datadir="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data"
+2020-08-14T07:48:36Z Command-line arg: debug="1"
+2020-08-14T07:48:36Z Command-line arg: logips=""
+2020-08-14T07:48:36Z Command-line arg: port="18444"
+2020-08-14T07:48:36Z Using at most 125 automatic connections (1048576 file descriptors available)
+2020-08-14T07:48:36Z Using 16 MiB out of 32/2 requested for signature cache, able to store 524288 elements
+2020-08-14T07:48:36Z Using 16 MiB out of 32/2 requested for script execution cache, able to store 524288 elements
+2020-08-14T07:48:36Z Script verification uses 3 additional threads
+2020-08-14T07:48:36Z scheduler thread start
+2020-08-14T07:48:36Z Allowing HTTP connections from: 127.0.0.0/8 ::1/128 
+2020-08-14T07:48:36Z Binding RPC on address ::1 port 18443
+2020-08-14T07:48:36Z Binding RPC on address 127.0.0.1 port 18443
+2020-08-14T07:48:36Z Initialized HTTP server
+2020-08-14T07:48:36Z HTTP: creating work queue of depth 16
+2020-08-14T07:48:36Z Starting RPC
+2020-08-14T07:48:36Z Starting HTTP RPC server
+2020-08-14T07:48:36Z Config options rpcuser and rpcpassword will soon be deprecated. Locally-run instances may remove rpcuser to use cookie-based auth, or may be replaced with rpcauth. Please see share/rpcauth for rpcauth auth generation.
+2020-08-14T07:48:36Z Registering HTTP handler for / (exactmatch 1)
+2020-08-14T07:48:36Z Registering HTTP handler for /wallet/ (exactmatch 0)
+2020-08-14T07:48:36Z Starting HTTP server
+2020-08-14T07:48:36Z HTTP: starting 4 worker threads
+2020-08-14T07:48:36Z Entering http event loop
+2020-08-14T07:48:36Z Using wallet directory /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets
+2020-08-14T07:48:36Z init message: Verifying wallet(s)...
+2020-08-14T07:48:36Z Using BerkeleyDB version Berkeley DB 4.8.30: (April  9, 2010)
+2020-08-14T07:48:36Z Using wallet /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets
+2020-08-14T07:48:36Z BerkeleyEnvironment::Open: LogDir=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/database ErrorFile=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/db.log
+2020-08-14T07:48:36Z init message: Loading banlist...
+2020-08-14T07:48:36Z Loaded 0 banned node ips/subnets from banlist.dat  1ms
+2020-08-14T07:48:36Z net: setting try another outbound peer=false
+2020-08-14T07:48:36Z Using /16 prefix for IP bucketing
+2020-08-14T07:48:36Z Cache configuration:
+2020-08-14T07:48:36Z * Using 2.0 MiB for block index database
+2020-08-14T07:48:36Z * Using 8.0 MiB for chain state database
+2020-08-14T07:48:36Z * Using 440.0 MiB for in-memory UTXO set (plus up to 286.1 MiB of unused mempool space)
+2020-08-14T07:48:36Z init message: Loading block index...
+2020-08-14T07:48:36Z LevelDB using max_open_files=1000 (default=1000)
+2020-08-14T07:48:36Z Opening LevelDB in /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/blocks/index
+2020-08-14T07:48:36Z leveldb: Recovering log #84
+2020-08-14T07:48:36Z leveldb: Level-0 table #86: started
+2020-08-14T07:48:36Z leveldb: Level-0 table #86: 207 bytes OK
+2020-08-14T07:48:36Z leveldb: Delete type=3 #82
+2020-08-14T07:48:36Z leveldb: Delete type=0 #84
+2020-08-14T07:48:36Z Opened LevelDB successfully
+2020-08-14T07:48:36Z Using obfuscation key for /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/blocks/index: 0000000000000000
+2020-08-14T07:48:36Z LoadBlockIndexDB: last block file = 0
+2020-08-14T07:48:36Z LoadBlockIndexDB: last block file info: CBlockFileInfo(blocks=1, size=293, heights=0...0, time=2011-02-02...2011-02-02)
+2020-08-14T07:48:36Z Checking all blk files are present...
+2020-08-14T07:48:36Z LevelDB using max_open_files=1000 (default=1000)
+2020-08-14T07:48:36Z Opening LevelDB in /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/chainstate
+2020-08-14T07:48:36Z leveldb: Recovering log #84
+2020-08-14T07:48:36Z leveldb: Level-0 table #86: started
+2020-08-14T07:48:36Z leveldb: Level-0 table #86: 597 bytes OK
+2020-08-14T07:48:36Z leveldb: Delete type=3 #82
+2020-08-14T07:48:36Z leveldb: Delete type=0 #84
+2020-08-14T07:48:36Z Opened LevelDB successfully
+2020-08-14T07:48:36Z Using obfuscation key for /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/chainstate: 8300b9bb791620cc
+2020-08-14T07:48:36Z Loaded best chain: hashBestChain=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206 height=0 date=2011-02-02T23:16:42Z progress=1.000000
+2020-08-14T07:48:36Z init message: Rewinding blocks...
+2020-08-14T07:48:36Z FlushStateToDisk: write block and undo data to disk started
+2020-08-14T07:48:36Z FlushStateToDisk: write block and undo data to disk completed (1.19ms)
+2020-08-14T07:48:36Z FlushStateToDisk: write block index to disk started
+2020-08-14T07:48:36Z WriteBatch memory usage: db=index, before=0.0MiB, after=0.0MiB
+2020-08-14T07:48:36Z FlushStateToDisk: write block index to disk completed (7.56ms)
+2020-08-14T07:48:36Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-14T07:48:36Z Writing final batch of 0.00 MiB
+2020-08-14T07:48:36Z WriteBatch memory usage: db=chainstate, before=0.0MiB, after=0.0MiB
+2020-08-14T07:48:36Z Committed 0 changed transaction outputs (out of 0) to coin database...
+2020-08-14T07:48:36Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-14T07:48:36Z Enqueuing ChainStateFlushed: block hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2020-08-14T07:48:36Z init message: Verifying blocks...
+2020-08-14T07:48:36Z ChainStateFlushed: block hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2020-08-14T07:48:36Z  block index              83ms
+2020-08-14T07:48:36Z Reading estimates: 190 buckets counting confirms up to 48 blocks
+2020-08-14T07:48:36Z Reading estimates: 190 buckets counting confirms up to 12 blocks
+2020-08-14T07:48:36Z Reading estimates: 190 buckets counting confirms up to 1008 blocks
+2020-08-14T07:48:36Z init message: Loading wallet...
+2020-08-14T07:48:36Z BerkeleyEnvironment::Open: LogDir=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/database ErrorFile=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/db.log
+2020-08-14T07:48:36Z [default wallet] Wallet File Version = 169900
+2020-08-14T07:48:36Z [default wallet] Keys: 2001 plaintext, 0 encrypted, 2001 w/ metadata, 2001 total. Unknown wallet records: 0
+2020-08-14T07:48:36Z [default wallet] Wallet completed loading in             101ms
+2020-08-14T07:48:36Z [default wallet] setKeyPool.size() = 2000
+2020-08-14T07:48:36Z [default wallet] mapWallet.size() = 0
+2020-08-14T07:48:36Z [default wallet] m_address_book.size() = 0
+2020-08-14T07:48:36Z block tree size = 1
+2020-08-14T07:48:36Z nBestHeight = 0
+2020-08-14T07:48:36Z Bound to [::]:18444
+2020-08-14T07:48:36Z Bound to 0.0.0.0:18444
+2020-08-14T07:48:36Z init message: Loading P2P addresses...
+2020-08-14T07:48:36Z Loaded 0 addresses from peers.dat  1ms
+2020-08-14T07:48:36Z init message: Starting network threads...
+2020-08-14T07:48:36Z torcontrol thread start
+2020-08-14T07:48:36Z dnsseed thread start
+2020-08-14T07:48:36Z init message: Done loading
+2020-08-14T07:48:36Z addcon thread start
+2020-08-14T07:48:36Z net thread start
+2020-08-14T07:48:36Z 0 addresses found from DNS seeds
+2020-08-14T07:48:36Z dnsseed thread exit
+2020-08-14T07:48:36Z Imported mempool transactions from disk: 0 succeeded, 0 failed, 0 expired, 0 already there
+2020-08-14T07:48:36Z opencon thread start
+2020-08-14T07:48:36Z tor: Error connecting to Tor control socket
+2020-08-14T07:48:36Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:48:36Z Received a POST request for / from 127.0.0.1:40532
+2020-08-14T07:48:36Z ThreadRPCServer method=addnode user=main peeraddr=127.0.0.1:40532
+2020-08-14T07:48:36Z msghand thread start
+2020-08-14T07:48:36Z Received a POST request for / from 127.0.0.1:40536
+2020-08-14T07:48:36Z ThreadRPCServer method=addnode user=main peeraddr=127.0.0.1:40536
+2020-08-14T07:48:37Z tor: Error connecting to Tor control socket
+2020-08-14T07:48:37Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:48:38Z trying connection 127.0.0.1:18445 lastseen=0.0hrs
+2020-08-14T07:48:38Z Added connection to 127.0.0.1:18445 peer=0
+2020-08-14T07:48:38Z sending version (102 bytes) peer=0
+2020-08-14T07:48:38Z send version message: version 70015, blocks=0, us=[::]:0, them=[::]:0, peer=0
+2020-08-14T07:48:38Z received: version (102 bytes) peer=0
+2020-08-14T07:48:38Z sending verack (0 bytes) peer=0
+2020-08-14T07:48:38Z sending getaddr (0 bytes) peer=0
+2020-08-14T07:48:38Z receive version message: /Satoshi:0.20.0/: version 70015, blocks=0, us=[::]:0, peer=0, peeraddr=127.0.0.1:18445
+2020-08-14T07:48:38Z added time data, samples 2, offset +0 (+0 minutes)
+2020-08-14T07:48:38Z received: verack (0 bytes) peer=0
+2020-08-14T07:48:38Z New outbound peer connected: version: 70015, blocks=0, peer=0, peeraddr=127.0.0.1:18445 (full-relay)
+2020-08-14T07:48:38Z sending sendheaders (0 bytes) peer=0
+2020-08-14T07:48:38Z sending sendcmpct (9 bytes) peer=0
+2020-08-14T07:48:38Z sending sendcmpct (9 bytes) peer=0
+2020-08-14T07:48:38Z sending ping (8 bytes) peer=0
+2020-08-14T07:48:38Z initial getheaders (0) to peer=0 (startheight:0)
+2020-08-14T07:48:38Z sending getheaders (69 bytes) peer=0
+2020-08-14T07:48:38Z sending feefilter (8 bytes) peer=0
+2020-08-14T07:48:38Z received: sendheaders (0 bytes) peer=0
+2020-08-14T07:48:38Z received: sendcmpct (9 bytes) peer=0
+2020-08-14T07:48:38Z received: sendcmpct (9 bytes) peer=0
+2020-08-14T07:48:38Z received: ping (8 bytes) peer=0
+2020-08-14T07:48:38Z sending pong (8 bytes) peer=0
+2020-08-14T07:48:38Z received: getheaders (69 bytes) peer=0
+2020-08-14T07:48:38Z Ignoring getheaders from peer=0 because node is in initial block download
+2020-08-14T07:48:38Z received: feefilter (8 bytes) peer=0
+2020-08-14T07:48:38Z received: feefilter of 0.00001000 BTC/kB from peer=0
+2020-08-14T07:48:38Z received: pong (8 bytes) peer=0
+2020-08-14T07:48:38Z trying connection 127.0.0.1:18446 lastseen=0.0hrs
+2020-08-14T07:48:38Z tor: Error connecting to Tor control socket
+2020-08-14T07:48:38Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:48:38Z Added connection to 127.0.0.1:18446 peer=1
+2020-08-14T07:48:38Z sending version (102 bytes) peer=1
+2020-08-14T07:48:38Z send version message: version 70015, blocks=0, us=[::]:0, them=[::]:0, peer=1
+2020-08-14T07:48:38Z received: version (102 bytes) peer=1
+2020-08-14T07:48:38Z sending verack (0 bytes) peer=1
+2020-08-14T07:48:38Z sending getaddr (0 bytes) peer=1
+2020-08-14T07:48:38Z receive version message: /Satoshi:0.20.0/: version 70015, blocks=0, us=[::]:0, peer=1, peeraddr=127.0.0.1:18446
+2020-08-14T07:48:38Z received: verack (0 bytes) peer=1
+2020-08-14T07:48:38Z New outbound peer connected: version: 70015, blocks=0, peer=1, peeraddr=127.0.0.1:18446 (full-relay)
+2020-08-14T07:48:38Z sending sendheaders (0 bytes) peer=1
+2020-08-14T07:48:38Z sending sendcmpct (9 bytes) peer=1
+2020-08-14T07:48:38Z sending sendcmpct (9 bytes) peer=1
+2020-08-14T07:48:38Z sending ping (8 bytes) peer=1
+2020-08-14T07:48:38Z sending feefilter (8 bytes) peer=1
+2020-08-14T07:48:38Z received: sendheaders (0 bytes) peer=1
+2020-08-14T07:48:38Z received: sendcmpct (9 bytes) peer=1
+2020-08-14T07:48:38Z received: sendcmpct (9 bytes) peer=1
+2020-08-14T07:48:38Z received: ping (8 bytes) peer=1
+2020-08-14T07:48:38Z sending pong (8 bytes) peer=1
+2020-08-14T07:48:38Z received: getheaders (69 bytes) peer=1
+2020-08-14T07:48:38Z Ignoring getheaders from peer=1 because node is in initial block download
+2020-08-14T07:48:38Z received: feefilter (8 bytes) peer=1
+2020-08-14T07:48:38Z received: feefilter of 0.00001000 BTC/kB from peer=1
+2020-08-14T07:48:38Z received: pong (8 bytes) peer=1
+2020-08-14T07:48:41Z tor: Error connecting to Tor control socket
+2020-08-14T07:48:41Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:48:44Z tor: Error connecting to Tor control socket
+2020-08-14T07:48:44Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:48:49Z tor: Error connecting to Tor control socket
+2020-08-14T07:48:49Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:48:57Z tor: Error connecting to Tor control socket
+2020-08-14T07:48:57Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:49:07Z Added connection to 127.0.0.1:50622 peer=2
+2020-08-14T07:49:07Z connection from 127.0.0.1:50622 accepted
+2020-08-14T07:49:07Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=2
+2020-08-14T07:49:07Z disconnecting peer=2
+2020-08-14T07:49:07Z Cleared nodestate for peer=2
+2020-08-14T07:49:07Z Added connection to 127.0.0.1:50624 peer=3
+2020-08-14T07:49:07Z connection from 127.0.0.1:50624 accepted
+2020-08-14T07:49:07Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=3
+2020-08-14T07:49:07Z disconnecting peer=3
+2020-08-14T07:49:07Z Cleared nodestate for peer=3
+2020-08-14T07:49:07Z Added connection to 127.0.0.1:50626 peer=4
+2020-08-14T07:49:07Z connection from 127.0.0.1:50626 accepted
+2020-08-14T07:49:07Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=4
+2020-08-14T07:49:07Z disconnecting peer=4
+2020-08-14T07:49:07Z Cleared nodestate for peer=4
+2020-08-14T07:49:08Z tor: Error connecting to Tor control socket
+2020-08-14T07:49:08Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:49:27Z tor: Error connecting to Tor control socket
+2020-08-14T07:49:27Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:49:29Z Received a POST request for / from 127.0.0.1:40600
+2020-08-14T07:49:29Z ThreadRPCServer method=stop user=main peeraddr=127.0.0.1:40600
+2020-08-14T07:49:29Z Interrupting HTTP server
+2020-08-14T07:49:29Z Interrupting HTTP RPC server
+2020-08-14T07:49:29Z Interrupting RPC
+2020-08-14T07:49:29Z tor: Thread interrupt
+2020-08-14T07:49:29Z torcontrol thread exit
+2020-08-14T07:49:29Z Shutdown: In progress...
+2020-08-14T07:49:29Z addcon thread exit
+2020-08-14T07:49:29Z opencon thread exit
+2020-08-14T07:49:29Z Stopping HTTP RPC server
+2020-08-14T07:49:29Z Unregistering HTTP handler for / (exactmatch 1)
+2020-08-14T07:49:29Z Unregistering HTTP handler for /wallet/ (exactmatch 0)
+2020-08-14T07:49:29Z Stopping RPC
+2020-08-14T07:49:29Z RPC stopped.
+2020-08-14T07:49:29Z Stopping HTTP server
+2020-08-14T07:49:29Z Waiting for HTTP worker threads to exit
+2020-08-14T07:49:29Z Waiting for HTTP event thread to exit
+2020-08-14T07:49:29Z Exited http event loop
+2020-08-14T07:49:29Z Stopped HTTP server
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: [/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets] Flush(false)
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: Flushing wallet.dat (refcount = 0)...
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: wallet.dat checkpoint
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: wallet.dat detach
+2020-08-14T07:49:29Z net thread exit
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: wallet.dat closed
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: Flush(false) took              33ms
+2020-08-14T07:49:29Z msghand thread exit
+2020-08-14T07:49:29Z Flushed 0 addresses to peers.dat  6ms
+2020-08-14T07:49:29Z disconnecting peer=0
+2020-08-14T07:49:29Z disconnecting peer=1
+2020-08-14T07:49:29Z Cleared nodestate for peer=0
+2020-08-14T07:49:29Z Cleared nodestate for peer=1
+2020-08-14T07:49:29Z scheduler thread exit
+2020-08-14T07:49:29Z Dumped mempool: 4.6e-05s to copy, 0.002894s to dump
+2020-08-14T07:49:29Z Recorded 0 unconfirmed txs from mempool in 1e-06s
+2020-08-14T07:49:29Z FlushStateToDisk: write block and undo data to disk started
+2020-08-14T07:49:29Z FlushStateToDisk: write block and undo data to disk completed (3.44ms)
+2020-08-14T07:49:29Z FlushStateToDisk: write block index to disk started
+2020-08-14T07:49:29Z WriteBatch memory usage: db=index, before=0.0MiB, after=0.0MiB
+2020-08-14T07:49:29Z FlushStateToDisk: write block index to disk completed (5.73ms)
+2020-08-14T07:49:29Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-14T07:49:29Z Writing final batch of 0.00 MiB
+2020-08-14T07:49:29Z WriteBatch memory usage: db=chainstate, before=0.0MiB, after=0.0MiB
+2020-08-14T07:49:29Z Committed 0 changed transaction outputs (out of 0) to coin database...
+2020-08-14T07:49:29Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-14T07:49:29Z Enqueuing ChainStateFlushed: block hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2020-08-14T07:49:29Z ChainStateFlushed: block hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2020-08-14T07:49:29Z FlushStateToDisk: write block and undo data to disk started
+2020-08-14T07:49:29Z FlushStateToDisk: write block and undo data to disk completed (2.92ms)
+2020-08-14T07:49:29Z FlushStateToDisk: write block index to disk started
+2020-08-14T07:49:29Z WriteBatch memory usage: db=index, before=0.0MiB, after=0.0MiB
+2020-08-14T07:49:29Z FlushStateToDisk: write block index to disk completed (2.96ms)
+2020-08-14T07:49:29Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-14T07:49:29Z Writing final batch of 0.00 MiB
+2020-08-14T07:49:29Z WriteBatch memory usage: db=chainstate, before=0.0MiB, after=0.0MiB
+2020-08-14T07:49:29Z Committed 0 changed transaction outputs (out of 0) to coin database...
+2020-08-14T07:49:29Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-14T07:49:29Z Enqueuing ChainStateFlushed: block hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: [/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets] Flush(true)
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: Flushing wallet.dat (refcount = 0)...
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: wallet.dat checkpoint
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: wallet.dat detach
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: wallet.dat closed
+2020-08-14T07:49:29Z BerkeleyEnvironment::Flush: Flush(true) took              60ms
+2020-08-14T07:49:29Z [default wallet] Releasing wallet
+2020-08-14T07:49:29Z Shutdown: done
+
+
+
+
+
+2020-08-14T07:49:43Z Bitcoin Core version v0.20.0 (release build)
+2020-08-14T07:49:43Z Validating signatures for all blocks.
+2020-08-14T07:49:43Z Setting nMinimumChainWork=0000000000000000000000000000000000000000000000000000000000000000
+2020-08-14T07:49:43Z Using the 'sse4(1way),sse41(4way),avx2(8way)' SHA256 implementation
+2020-08-14T07:49:43Z Using RdSeed as additional entropy source
+2020-08-14T07:49:43Z Using RdRand as an additional entropy source
+2020-08-14T07:49:43Z Default data directory /home/martin/.bitcoin
+2020-08-14T07:49:43Z Using data directory /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest
+2020-08-14T07:49:43Z Config file: /home/martin/PycharmProjects/bitScan/bitcoin_test_network/bitcoin.conf
+2020-08-14T07:49:43Z Config file arg: regtest="1"
+2020-08-14T07:49:43Z Config file arg: rpcpassword=****
+2020-08-14T07:49:43Z Config file arg: rpcuser=****
+2020-08-14T07:49:43Z Command-line arg: conf="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/bitcoin.conf"
+2020-08-14T07:49:43Z Command-line arg: datadir="/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data"
+2020-08-14T07:49:43Z Command-line arg: debug="1"
+2020-08-14T07:49:43Z Command-line arg: logips=""
+2020-08-14T07:49:43Z Command-line arg: port="18444"
+2020-08-14T07:49:43Z Using at most 125 automatic connections (1048576 file descriptors available)
+2020-08-14T07:49:43Z Using 16 MiB out of 32/2 requested for signature cache, able to store 524288 elements
+2020-08-14T07:49:43Z Using 16 MiB out of 32/2 requested for script execution cache, able to store 524288 elements
+2020-08-14T07:49:43Z Script verification uses 3 additional threads
+2020-08-14T07:49:43Z Allowing HTTP connections from: 127.0.0.0/8 ::1/128 
+2020-08-14T07:49:43Z Binding RPC on address ::1 port 18443
+2020-08-14T07:49:43Z Binding RPC on address 127.0.0.1 port 18443
+2020-08-14T07:49:43Z Initialized HTTP server
+2020-08-14T07:49:43Z HTTP: creating work queue of depth 16
+2020-08-14T07:49:43Z Starting RPC
+2020-08-14T07:49:43Z Starting HTTP RPC server
+2020-08-14T07:49:43Z Config options rpcuser and rpcpassword will soon be deprecated. Locally-run instances may remove rpcuser to use cookie-based auth, or may be replaced with rpcauth. Please see share/rpcauth for rpcauth auth generation.
+2020-08-14T07:49:43Z Registering HTTP handler for / (exactmatch 1)
+2020-08-14T07:49:43Z Registering HTTP handler for /wallet/ (exactmatch 0)
+2020-08-14T07:49:43Z Starting HTTP server
+2020-08-14T07:49:43Z HTTP: starting 4 worker threads
+2020-08-14T07:49:43Z Entering http event loop
+2020-08-14T07:49:43Z Using wallet directory /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets
+2020-08-14T07:49:43Z init message: Verifying wallet(s)...
+2020-08-14T07:49:43Z Using BerkeleyDB version Berkeley DB 4.8.30: (April  9, 2010)
+2020-08-14T07:49:43Z Using wallet /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets
+2020-08-14T07:49:43Z BerkeleyEnvironment::Open: LogDir=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/database ErrorFile=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/db.log
+2020-08-14T07:49:43Z scheduler thread start
+2020-08-14T07:49:43Z init message: Loading banlist...
+2020-08-14T07:49:43Z Loaded 0 banned node ips/subnets from banlist.dat  0ms
+2020-08-14T07:49:43Z net: setting try another outbound peer=false
+2020-08-14T07:49:43Z Using /16 prefix for IP bucketing
+2020-08-14T07:49:43Z Cache configuration:
+2020-08-14T07:49:43Z * Using 2.0 MiB for block index database
+2020-08-14T07:49:43Z * Using 8.0 MiB for chain state database
+2020-08-14T07:49:43Z * Using 440.0 MiB for in-memory UTXO set (plus up to 286.1 MiB of unused mempool space)
+2020-08-14T07:49:43Z init message: Loading block index...
+2020-08-14T07:49:43Z LevelDB using max_open_files=1000 (default=1000)
+2020-08-14T07:49:43Z Opening LevelDB in /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/blocks/index
+2020-08-14T07:49:43Z leveldb: Recovering log #87
+2020-08-14T07:49:43Z leveldb: Level-0 table #89: started
+2020-08-14T07:49:43Z leveldb: Level-0 table #89: 207 bytes OK
+2020-08-14T07:49:43Z leveldb: Delete type=3 #85
+2020-08-14T07:49:43Z leveldb: Delete type=0 #87
+2020-08-14T07:49:43Z Opened LevelDB successfully
+2020-08-14T07:49:43Z Using obfuscation key for /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/blocks/index: 0000000000000000
+2020-08-14T07:49:43Z LoadBlockIndexDB: last block file = 0
+2020-08-14T07:49:43Z LoadBlockIndexDB: last block file info: CBlockFileInfo(blocks=1, size=293, heights=0...0, time=2011-02-02...2011-02-02)
+2020-08-14T07:49:43Z Checking all blk files are present...
+2020-08-14T07:49:43Z LevelDB using max_open_files=1000 (default=1000)
+2020-08-14T07:49:43Z Opening LevelDB in /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/chainstate
+2020-08-14T07:49:43Z leveldb: Recovering log #87
+2020-08-14T07:49:43Z leveldb: Level-0 table #89: started
+2020-08-14T07:49:43Z leveldb: Level-0 table #89: 597 bytes OK
+2020-08-14T07:49:43Z leveldb: Delete type=3 #85
+2020-08-14T07:49:43Z leveldb: Delete type=0 #87
+2020-08-14T07:49:43Z Opened LevelDB successfully
+2020-08-14T07:49:43Z Using obfuscation key for /home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/chainstate: 8300b9bb791620cc
+2020-08-14T07:49:43Z Loaded best chain: hashBestChain=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206 height=0 date=2011-02-02T23:16:42Z progress=1.000000
+2020-08-14T07:49:43Z init message: Rewinding blocks...
+2020-08-14T07:49:43Z FlushStateToDisk: write block and undo data to disk started
+2020-08-14T07:49:43Z FlushStateToDisk: write block and undo data to disk completed (0.19ms)
+2020-08-14T07:49:43Z FlushStateToDisk: write block index to disk started
+2020-08-14T07:49:43Z WriteBatch memory usage: db=index, before=0.0MiB, after=0.0MiB
+2020-08-14T07:49:43Z FlushStateToDisk: write block index to disk completed (5.32ms)
+2020-08-14T07:49:43Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-14T07:49:43Z Writing final batch of 0.00 MiB
+2020-08-14T07:49:43Z WriteBatch memory usage: db=chainstate, before=0.0MiB, after=0.0MiB
+2020-08-14T07:49:43Z Committed 0 changed transaction outputs (out of 0) to coin database...
+2020-08-14T07:49:43Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-14T07:49:43Z Enqueuing ChainStateFlushed: block hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2020-08-14T07:49:43Z init message: Verifying blocks...
+2020-08-14T07:49:43Z  block index              64ms
+2020-08-14T07:49:43Z ChainStateFlushed: block hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2020-08-14T07:49:43Z Reading estimates: 190 buckets counting confirms up to 48 blocks
+2020-08-14T07:49:43Z Reading estimates: 190 buckets counting confirms up to 12 blocks
+2020-08-14T07:49:43Z Reading estimates: 190 buckets counting confirms up to 1008 blocks
+2020-08-14T07:49:43Z init message: Loading wallet...
+2020-08-14T07:49:43Z BerkeleyEnvironment::Open: LogDir=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/database ErrorFile=/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets/db.log
+2020-08-14T07:49:43Z [default wallet] Wallet File Version = 169900
+2020-08-14T07:49:43Z [default wallet] Keys: 2001 plaintext, 0 encrypted, 2001 w/ metadata, 2001 total. Unknown wallet records: 0
+2020-08-14T07:49:43Z [default wallet] Wallet completed loading in              57ms
+2020-08-14T07:49:43Z [default wallet] setKeyPool.size() = 2000
+2020-08-14T07:49:43Z [default wallet] mapWallet.size() = 0
+2020-08-14T07:49:43Z [default wallet] m_address_book.size() = 0
+2020-08-14T07:49:43Z block tree size = 1
+2020-08-14T07:49:43Z nBestHeight = 0
+2020-08-14T07:49:43Z Imported mempool transactions from disk: 0 succeeded, 0 failed, 0 expired, 0 already there
+2020-08-14T07:49:43Z Bound to [::]:18444
+2020-08-14T07:49:43Z Bound to 0.0.0.0:18444
+2020-08-14T07:49:43Z init message: Loading P2P addresses...
+2020-08-14T07:49:43Z Loaded 0 addresses from peers.dat  0ms
+2020-08-14T07:49:43Z init message: Starting network threads...
+2020-08-14T07:49:43Z torcontrol thread start
+2020-08-14T07:49:43Z init message: Done loading
+2020-08-14T07:49:43Z tor: Error connecting to Tor control socket
+2020-08-14T07:49:43Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:49:43Z opencon thread start
+2020-08-14T07:49:43Z dnsseed thread start
+2020-08-14T07:49:43Z addcon thread start
+2020-08-14T07:49:43Z net thread start
+2020-08-14T07:49:43Z 0 addresses found from DNS seeds
+2020-08-14T07:49:43Z dnsseed thread exit
+2020-08-14T07:49:43Z msghand thread start
+2020-08-14T07:49:44Z tor: Error connecting to Tor control socket
+2020-08-14T07:49:44Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:49:45Z tor: Error connecting to Tor control socket
+2020-08-14T07:49:45Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:49:48Z tor: Error connecting to Tor control socket
+2020-08-14T07:49:48Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:49:51Z tor: Error connecting to Tor control socket
+2020-08-14T07:49:51Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:49:56Z tor: Error connecting to Tor control socket
+2020-08-14T07:49:56Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:50:04Z tor: Error connecting to Tor control socket
+2020-08-14T07:50:04Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:50:15Z tor: Error connecting to Tor control socket
+2020-08-14T07:50:15Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:50:32Z tor: Error connecting to Tor control socket
+2020-08-14T07:50:32Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:50:43Z Feeding 17419 bytes of dynamic environment data into RNG
+2020-08-14T07:50:44Z Adding fixed seed nodes as DNS doesn't seem to be available.
+2020-08-14T07:50:58Z tor: Error connecting to Tor control socket
+2020-08-14T07:50:58Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:51:15Z Added connection to 127.0.0.1:50674 peer=0
+2020-08-14T07:51:15Z connection from 127.0.0.1:50674 accepted
+2020-08-14T07:51:15Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=0
+2020-08-14T07:51:15Z disconnecting peer=0
+2020-08-14T07:51:15Z Cleared nodestate for peer=0
+2020-08-14T07:51:15Z Added connection to 127.0.0.1:50676 peer=1
+2020-08-14T07:51:15Z connection from 127.0.0.1:50676 accepted
+2020-08-14T07:51:15Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=1
+2020-08-14T07:51:15Z disconnecting peer=1
+2020-08-14T07:51:15Z Cleared nodestate for peer=1
+2020-08-14T07:51:15Z Added connection to 127.0.0.1:50678 peer=2
+2020-08-14T07:51:15Z connection from 127.0.0.1:50678 accepted
+2020-08-14T07:51:15Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=2
+2020-08-14T07:51:16Z disconnecting peer=2
+2020-08-14T07:51:16Z Cleared nodestate for peer=2
+2020-08-14T07:51:36Z tor: Error connecting to Tor control socket
+2020-08-14T07:51:36Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:51:40Z Added connection to 127.0.0.1:50682 peer=3
+2020-08-14T07:51:40Z connection from 127.0.0.1:50682 accepted
+2020-08-14T07:51:40Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=3
+2020-08-14T07:51:40Z disconnecting peer=3
+2020-08-14T07:51:40Z Cleared nodestate for peer=3
+2020-08-14T07:51:40Z Added connection to 127.0.0.1:50684 peer=4
+2020-08-14T07:51:40Z connection from 127.0.0.1:50684 accepted
+2020-08-14T07:51:40Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=4
+2020-08-14T07:51:40Z disconnecting peer=4
+2020-08-14T07:51:40Z Cleared nodestate for peer=4
+2020-08-14T07:51:40Z Added connection to 127.0.0.1:50686 peer=5
+2020-08-14T07:51:40Z connection from 127.0.0.1:50686 accepted
+2020-08-14T07:51:40Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=5
+2020-08-14T07:51:40Z disconnecting peer=5
+2020-08-14T07:51:40Z Cleared nodestate for peer=5
+2020-08-14T07:51:43Z Feeding 17418 bytes of dynamic environment data into RNG
+2020-08-14T07:52:34Z tor: Error connecting to Tor control socket
+2020-08-14T07:52:34Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:52:36Z Added connection to 127.0.0.1:50690 peer=6
+2020-08-14T07:52:36Z connection from 127.0.0.1:50690 accepted
+2020-08-14T07:52:36Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=6
+2020-08-14T07:52:36Z disconnecting peer=6
+2020-08-14T07:52:36Z Cleared nodestate for peer=6
+2020-08-14T07:52:36Z Added connection to 127.0.0.1:50692 peer=7
+2020-08-14T07:52:36Z connection from 127.0.0.1:50692 accepted
+2020-08-14T07:52:36Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=7
+2020-08-14T07:52:36Z disconnecting peer=7
+2020-08-14T07:52:36Z Cleared nodestate for peer=7
+2020-08-14T07:52:36Z Added connection to 127.0.0.1:50694 peer=8
+2020-08-14T07:52:36Z connection from 127.0.0.1:50694 accepted
+2020-08-14T07:52:36Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=8
+2020-08-14T07:52:36Z disconnecting peer=8
+2020-08-14T07:52:36Z Cleared nodestate for peer=8
+2020-08-14T07:52:43Z Feeding 17419 bytes of dynamic environment data into RNG
+2020-08-14T07:53:14Z Added connection to 127.0.0.1:50696 peer=9
+2020-08-14T07:53:14Z connection from 127.0.0.1:50696 accepted
+2020-08-14T07:53:14Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=9
+2020-08-14T07:53:14Z disconnecting peer=9
+2020-08-14T07:53:14Z Cleared nodestate for peer=9
+2020-08-14T07:53:14Z Added connection to 127.0.0.1:50698 peer=10
+2020-08-14T07:53:14Z connection from 127.0.0.1:50698 accepted
+2020-08-14T07:53:14Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=10
+2020-08-14T07:53:14Z disconnecting peer=10
+2020-08-14T07:53:14Z Cleared nodestate for peer=10
+2020-08-14T07:53:14Z Added connection to 127.0.0.1:50700 peer=11
+2020-08-14T07:53:14Z connection from 127.0.0.1:50700 accepted
+2020-08-14T07:53:14Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=11
+2020-08-14T07:53:14Z disconnecting peer=11
+2020-08-14T07:53:14Z Cleared nodestate for peer=11
+2020-08-14T07:53:43Z Feeding 17418 bytes of dynamic environment data into RNG
+2020-08-14T07:54:01Z tor: Error connecting to Tor control socket
+2020-08-14T07:54:01Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:54:43Z Feeding 17417 bytes of dynamic environment data into RNG
+2020-08-14T07:55:38Z Received a POST request for / from 127.0.0.1:40682
+2020-08-14T07:55:38Z ThreadRPCServer method=getnetworkinfo user=main peeraddr=127.0.0.1:40682
+2020-08-14T07:55:43Z Feeding 17424 bytes of dynamic environment data into RNG
+2020-08-14T07:56:10Z tor: Error connecting to Tor control socket
+2020-08-14T07:56:10Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:56:43Z Feeding 17419 bytes of dynamic environment data into RNG
+2020-08-14T07:57:43Z Feeding 17419 bytes of dynamic environment data into RNG
+2020-08-14T07:58:43Z Feeding 17419 bytes of dynamic environment data into RNG
+2020-08-14T07:59:25Z tor: Error connecting to Tor control socket
+2020-08-14T07:59:25Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T07:59:43Z Feeding 17417 bytes of dynamic environment data into RNG
+2020-08-14T08:00:43Z Feeding 17419 bytes of dynamic environment data into RNG
+2020-08-14T08:01:43Z Feeding 17414 bytes of dynamic environment data into RNG
+2020-08-14T08:02:43Z Feeding 17414 bytes of dynamic environment data into RNG
+2020-08-14T08:03:43Z Feeding 17423 bytes of dynamic environment data into RNG
+2020-08-14T08:04:17Z tor: Error connecting to Tor control socket
+2020-08-14T08:04:17Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T08:04:43Z Flushed 0 addresses to peers.dat  12ms
+2020-08-14T08:04:43Z Feeding 17417 bytes of dynamic environment data into RNG
+2020-08-14T08:05:43Z Feeding 17417 bytes of dynamic environment data into RNG
+2020-08-14T08:06:43Z Feeding 17426 bytes of dynamic environment data into RNG
+2020-08-14T08:07:43Z Feeding 17420 bytes of dynamic environment data into RNG
+2020-08-14T08:08:43Z Feeding 17415 bytes of dynamic environment data into RNG
+2020-08-14T08:09:43Z Feeding 17432 bytes of dynamic environment data into RNG
+2020-08-14T08:10:19Z Added connection to 127.0.0.1:50754 peer=12
+2020-08-14T08:10:19Z connection from 127.0.0.1:50754 accepted
+2020-08-14T08:10:19Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=12
+2020-08-14T08:10:19Z disconnecting peer=12
+2020-08-14T08:10:19Z Cleared nodestate for peer=12
+2020-08-14T08:10:19Z Added connection to 127.0.0.1:50756 peer=13
+2020-08-14T08:10:19Z connection from 127.0.0.1:50756 accepted
+2020-08-14T08:10:19Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=13
+2020-08-14T08:10:19Z disconnecting peer=13
+2020-08-14T08:10:19Z Cleared nodestate for peer=13
+2020-08-14T08:10:19Z Added connection to 127.0.0.1:50758 peer=14
+2020-08-14T08:10:19Z connection from 127.0.0.1:50758 accepted
+2020-08-14T08:10:19Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=14
+2020-08-14T08:10:19Z disconnecting peer=14
+2020-08-14T08:10:19Z Cleared nodestate for peer=14
+2020-08-14T08:10:43Z Feeding 17432 bytes of dynamic environment data into RNG
+2020-08-14T08:11:35Z tor: Error connecting to Tor control socket
+2020-08-14T08:11:35Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T08:11:43Z Feeding 17439 bytes of dynamic environment data into RNG
+2020-08-14T08:11:46Z Added connection to 127.0.0.1:50764 peer=15
+2020-08-14T08:11:46Z connection from 127.0.0.1:50764 accepted
+2020-08-14T08:11:46Z PROCESSMESSAGE: INVALID MESSAGESTART versionooooo peer=15
+2020-08-14T08:11:46Z disconnecting peer=15
+2020-08-14T08:11:46Z Cleared nodestate for peer=15
+2020-08-14T08:11:46Z Added connection to 127.0.0.1:50766 peer=16
+2020-08-14T08:11:46Z connection from 127.0.0.1:50766 accepted
+2020-08-14T08:11:46Z PROCESSMESSAGE: INVALID MESSAGESTART versionooooo peer=16
+2020-08-14T08:11:46Z disconnecting peer=16
+2020-08-14T08:11:46Z Cleared nodestate for peer=16
+2020-08-14T08:11:46Z Added connection to 127.0.0.1:50768 peer=17
+2020-08-14T08:11:46Z connection from 127.0.0.1:50768 accepted
+2020-08-14T08:11:46Z PROCESSMESSAGE: INVALID MESSAGESTART versionooooo peer=17
+2020-08-14T08:11:46Z disconnecting peer=17
+2020-08-14T08:11:46Z Cleared nodestate for peer=17
+2020-08-14T08:12:08Z Added connection to 127.0.0.1:50770 peer=18
+2020-08-14T08:12:08Z connection from 127.0.0.1:50770 accepted
+2020-08-14T08:12:08Z PROCESSMESSAGE: INVALID MESSAGESTART versionooooo peer=18
+2020-08-14T08:12:08Z disconnecting peer=18
+2020-08-14T08:12:08Z Cleared nodestate for peer=18
+2020-08-14T08:12:08Z Added connection to 127.0.0.1:50772 peer=19
+2020-08-14T08:12:08Z connection from 127.0.0.1:50772 accepted
+2020-08-14T08:12:08Z PROCESSMESSAGE: INVALID MESSAGESTART versionooooo peer=19
+2020-08-14T08:12:08Z disconnecting peer=19
+2020-08-14T08:12:08Z Cleared nodestate for peer=19
+2020-08-14T08:12:08Z Added connection to 127.0.0.1:50774 peer=20
+2020-08-14T08:12:08Z connection from 127.0.0.1:50774 accepted
+2020-08-14T08:12:08Z PROCESSMESSAGE: INVALID MESSAGESTART versionooooo peer=20
+2020-08-14T08:12:08Z disconnecting peer=20
+2020-08-14T08:12:08Z Cleared nodestate for peer=20
+2020-08-14T08:12:43Z Feeding 17439 bytes of dynamic environment data into RNG
+2020-08-14T08:12:57Z Added connection to 127.0.0.1:50776 peer=21
+2020-08-14T08:12:57Z connection from 127.0.0.1:50776 accepted
+2020-08-14T08:12:57Z PROCESSMESSAGE: INVALID MESSAGESTART versionooooo peer=21
+2020-08-14T08:12:58Z disconnecting peer=21
+2020-08-14T08:12:58Z Cleared nodestate for peer=21
+2020-08-14T08:12:58Z Added connection to 127.0.0.1:50778 peer=22
+2020-08-14T08:12:58Z connection from 127.0.0.1:50778 accepted
+2020-08-14T08:12:58Z PROCESSMESSAGE: INVALID MESSAGESTART versionooooo peer=22
+2020-08-14T08:12:58Z disconnecting peer=22
+2020-08-14T08:12:58Z Cleared nodestate for peer=22
+2020-08-14T08:12:58Z Added connection to 127.0.0.1:50780 peer=23
+2020-08-14T08:12:58Z connection from 127.0.0.1:50780 accepted
+2020-08-14T08:12:58Z PROCESSMESSAGE: INVALID MESSAGESTART versionooooo peer=23
+2020-08-14T08:12:58Z disconnecting peer=23
+2020-08-14T08:12:58Z Cleared nodestate for peer=23
+2020-08-14T08:13:24Z Added connection to 127.0.0.1:50782 peer=24
+2020-08-14T08:13:24Z connection from 127.0.0.1:50782 accepted
+2020-08-14T08:13:24Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=24
+2020-08-14T08:13:24Z disconnecting peer=24
+2020-08-14T08:13:24Z Cleared nodestate for peer=24
+2020-08-14T08:13:24Z Added connection to 127.0.0.1:50784 peer=25
+2020-08-14T08:13:24Z connection from 127.0.0.1:50784 accepted
+2020-08-14T08:13:24Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=25
+2020-08-14T08:13:24Z disconnecting peer=25
+2020-08-14T08:13:24Z Cleared nodestate for peer=25
+2020-08-14T08:13:24Z Added connection to 127.0.0.1:50786 peer=26
+2020-08-14T08:13:24Z connection from 127.0.0.1:50786 accepted
+2020-08-14T08:13:24Z PROCESSMESSAGE: INVALID MESSAGESTART version peer=26
+2020-08-14T08:13:24Z disconnecting peer=26
+2020-08-14T08:13:24Z Cleared nodestate for peer=26
+2020-08-14T08:13:43Z Feeding 17432 bytes of dynamic environment data into RNG
+2020-08-14T08:14:43Z Feeding 17437 bytes of dynamic environment data into RNG
+2020-08-14T08:15:43Z Feeding 17429 bytes of dynamic environment data into RNG
+2020-08-14T08:16:43Z Feeding 17427 bytes of dynamic environment data into RNG
+2020-08-14T08:17:43Z Feeding 17432 bytes of dynamic environment data into RNG
+2020-08-14T08:18:43Z Feeding 17428 bytes of dynamic environment data into RNG
+2020-08-14T08:19:43Z Flushed 0 addresses to peers.dat  11ms
+2020-08-14T08:19:43Z Feeding 17440 bytes of dynamic environment data into RNG
+2020-08-14T08:20:43Z Feeding 17432 bytes of dynamic environment data into RNG
+2020-08-14T08:21:43Z Feeding 17432 bytes of dynamic environment data into RNG
+2020-08-14T08:21:58Z Potential stale tip detected, will try using extra outbound peer (last tip update: 1890 seconds ago)
+2020-08-14T08:21:58Z net: setting try another outbound peer=true
+2020-08-14T08:22:32Z tor: Error connecting to Tor control socket
+2020-08-14T08:22:32Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T08:22:43Z Feeding 17435 bytes of dynamic environment data into RNG
+2020-08-14T08:23:43Z Feeding 17434 bytes of dynamic environment data into RNG
+2020-08-14T08:24:43Z Feeding 17430 bytes of dynamic environment data into RNG
+2020-08-14T08:25:43Z Feeding 17432 bytes of dynamic environment data into RNG
+2020-08-14T08:26:43Z Feeding 17439 bytes of dynamic environment data into RNG
+2020-08-14T08:27:43Z Feeding 17438 bytes of dynamic environment data into RNG
+2020-08-14T08:28:43Z Feeding 17433 bytes of dynamic environment data into RNG
+2020-08-14T08:29:43Z Feeding 17441 bytes of dynamic environment data into RNG
+2020-08-14T08:30:43Z Feeding 17435 bytes of dynamic environment data into RNG
+2020-08-14T08:31:43Z Feeding 17436 bytes of dynamic environment data into RNG
+2020-08-14T08:32:28Z Potential stale tip detected, will try using extra outbound peer (last tip update: 2520 seconds ago)
+2020-08-14T08:32:28Z net: setting try another outbound peer=true
+2020-08-14T08:32:43Z Feeding 17438 bytes of dynamic environment data into RNG
+2020-08-14T08:33:43Z Feeding 17438 bytes of dynamic environment data into RNG
+2020-08-14T08:34:43Z Flushed 0 addresses to peers.dat  12ms
+2020-08-14T08:34:43Z Feeding 17437 bytes of dynamic environment data into RNG
+2020-08-14T08:35:43Z Feeding 17444 bytes of dynamic environment data into RNG
+2020-08-14T08:36:43Z Feeding 17435 bytes of dynamic environment data into RNG
+2020-08-14T08:37:43Z Feeding 17435 bytes of dynamic environment data into RNG
+2020-08-14T08:38:43Z Feeding 17443 bytes of dynamic environment data into RNG
+2020-08-14T08:38:57Z tor: Error connecting to Tor control socket
+2020-08-14T08:38:57Z tor: Not connected to Tor control port 127.0.0.1:9051, trying to reconnect
+2020-08-14T08:39:43Z Feeding 17434 bytes of dynamic environment data into RNG
+2020-08-14T08:40:43Z Feeding 17444 bytes of dynamic environment data into RNG
+2020-08-14T08:41:39Z Received a POST request for / from 127.0.0.1:41236
+2020-08-14T08:41:39Z ThreadRPCServer method=stop user=main peeraddr=127.0.0.1:41236
+2020-08-14T08:41:39Z Interrupting HTTP server
+2020-08-14T08:41:39Z Interrupting HTTP RPC server
+2020-08-14T08:41:39Z Interrupting RPC
+2020-08-14T08:41:39Z tor: Thread interrupt
+2020-08-14T08:41:39Z torcontrol thread exit
+2020-08-14T08:41:39Z addcon thread exit
+2020-08-14T08:41:39Z Shutdown: In progress...
+2020-08-14T08:41:39Z Stopping HTTP RPC server
+2020-08-14T08:41:39Z Unregistering HTTP handler for / (exactmatch 1)
+2020-08-14T08:41:39Z msghand thread exit
+2020-08-14T08:41:39Z opencon thread exit
+2020-08-14T08:41:39Z Unregistering HTTP handler for /wallet/ (exactmatch 0)
+2020-08-14T08:41:39Z Stopping RPC
+2020-08-14T08:41:39Z RPC stopped.
+2020-08-14T08:41:39Z Stopping HTTP server
+2020-08-14T08:41:39Z Waiting for HTTP worker threads to exit
+2020-08-14T08:41:39Z Waiting for HTTP event thread to exit
+2020-08-14T08:41:39Z Exited http event loop
+2020-08-14T08:41:39Z Stopped HTTP server
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: [/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets] Flush(false)
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: Flushing wallet.dat (refcount = 0)...
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: wallet.dat checkpoint
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: wallet.dat detach
+2020-08-14T08:41:39Z net thread exit
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: wallet.dat closed
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: Flush(false) took              27ms
+2020-08-14T08:41:39Z Flushed 0 addresses to peers.dat  4ms
+2020-08-14T08:41:39Z scheduler thread exit
+2020-08-14T08:41:39Z Dumped mempool: 6e-06s to copy, 0.007615s to dump
+2020-08-14T08:41:39Z Recorded 0 unconfirmed txs from mempool in 2e-06s
+2020-08-14T08:41:39Z FlushStateToDisk: write block and undo data to disk started
+2020-08-14T08:41:39Z FlushStateToDisk: write block and undo data to disk completed (0.29ms)
+2020-08-14T08:41:39Z FlushStateToDisk: write block index to disk started
+2020-08-14T08:41:39Z WriteBatch memory usage: db=index, before=0.0MiB, after=0.0MiB
+2020-08-14T08:41:39Z FlushStateToDisk: write block index to disk completed (1.12ms)
+2020-08-14T08:41:39Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-14T08:41:39Z Writing final batch of 0.00 MiB
+2020-08-14T08:41:39Z WriteBatch memory usage: db=chainstate, before=0.0MiB, after=0.0MiB
+2020-08-14T08:41:39Z Committed 0 changed transaction outputs (out of 0) to coin database...
+2020-08-14T08:41:39Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-14T08:41:39Z Enqueuing ChainStateFlushed: block hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2020-08-14T08:41:39Z ChainStateFlushed: block hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2020-08-14T08:41:39Z FlushStateToDisk: write block and undo data to disk started
+2020-08-14T08:41:39Z FlushStateToDisk: write block and undo data to disk completed (0.27ms)
+2020-08-14T08:41:39Z FlushStateToDisk: write block index to disk started
+2020-08-14T08:41:39Z WriteBatch memory usage: db=index, before=0.0MiB, after=0.0MiB
+2020-08-14T08:41:39Z FlushStateToDisk: write block index to disk completed (2.94ms)
+2020-08-14T08:41:39Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) started
+2020-08-14T08:41:39Z Writing final batch of 0.00 MiB
+2020-08-14T08:41:39Z WriteBatch memory usage: db=chainstate, before=0.0MiB, after=0.0MiB
+2020-08-14T08:41:39Z Committed 0 changed transaction outputs (out of 0) to coin database...
+2020-08-14T08:41:39Z FlushStateToDisk: write coins cache to disk (0 coins, 0kB) completed (0.00s)
+2020-08-14T08:41:39Z Enqueuing ChainStateFlushed: block hash=0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: [/home/martin/PycharmProjects/bitScan/bitcoin_test_network/data/regtest/wallets] Flush(true)
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: Flushing wallet.dat (refcount = 0)...
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: wallet.dat checkpoint
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: wallet.dat detach
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: wallet.dat closed
+2020-08-14T08:41:39Z BerkeleyEnvironment::Flush: Flush(true) took              26ms
+2020-08-14T08:41:39Z [default wallet] Releasing wallet
+2020-08-14T08:41:39Z Shutdown: done
