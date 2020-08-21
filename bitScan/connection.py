@@ -1,8 +1,8 @@
+import re
 import socket
 import logging
 import time
 
-from collections import deque
 from io import BytesIO
 from binascii import hexlify
 
@@ -26,6 +26,7 @@ class Connection(object):
             port (int): Port
         serializer (obj): Serializer object for this connection.
         socket (obj): Socket for communication with a bitcoin node.
+        handshake_done (bool): Indicates if the handshake with the bitcoin node was successful.
     """
     def __init__(self, to_addr):
         logging.info('Create connection object.')
@@ -35,6 +36,7 @@ class Connection(object):
         # TODO Maybe not necessary to use a own serializer object for every connection
         self.serializer = Serializer()
         self.socket = None
+        self.handshake_done = False
 
     def open(self):
         """Create connection to a bitcoin node.
@@ -154,6 +156,9 @@ class Connection(object):
         received[:] = [x.get('command') for x in msgs]
         logging.info('Received messages: {}'.format(received))
 
+        if received.sort() == ['verack', 'version']:
+            self.handshake_done = True
+
         return msgs
 
     def recv(self, length=0):
@@ -189,3 +194,51 @@ class Connection(object):
                 raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
 
         return data, current_time
+
+    def recv_permanent(self, time_minutes):
+        """Receive addr message from a socket.
+
+        Notes:
+            Listen on a socket permanently and write out all addr messages we get into a file.
+
+        Args:
+            time_minutes (int): The amount of time how long we want to listen on the socket. In minutes.
+        """
+        received = b''
+        unpacked_addr_msgs = ''
+        timeout = time.time() + 60 * time_minutes
+        print(timeout)
+        print(time.time())
+
+
+        # TODO change the thingy with the count
+        while time.time() < timeout:
+            data = self.socket.recv(1024)
+
+            if not data:
+                raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
+
+            received += data
+            # for not hogging the CPU
+            time.sleep(1)
+
+        received_messages = received.split(MAGIC_NUMBER_COMPARE)
+        for msg in received_messages:
+            if re.compile(b'^addr').match(msg):
+                msg = BytesIO(msg)
+                header = self.serializer.deserialize_header(MAGIC_NUMBER_COMPARE + msg.read(HEADER_LEN-4))
+                payload_addr = msg.read(header['length'])
+                unpacked_addr_msgs += self.serializer.deserialize_addr_payload(payload_addr, 0)
+
+        append_to_file('../received_addr_permanent_listening.csv', unpacked_addr_msgs)
+
+    def send_addr(self, to_addr, adresses):
+        pass
+
+
+
+
+
+
+
+

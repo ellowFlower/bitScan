@@ -41,3 +41,16 @@ def unpack_util(fmt, data, str = ''):
     except struct.error as err:
         raise MessageContentError(err)
 
+
+def append_to_file(file_location, data):
+    """Append content to a file.
+
+    Notes:
+        When appending addresses we got from addr messages the file should already exist with a proper header.
+
+    Args:
+        file_location (str): The path to the file we want to append
+        data (str): Data we append
+    """
+    with open(file_location, 'a') as f:
+        f.write(data)

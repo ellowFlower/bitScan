@@ -109,6 +109,21 @@ class Serializer(object):
         return struct.pack('<iQq26s26sQ16si?', self.protocol_version, self.from_services, timestamp, peer_addr,
                               source_addr, nonce, create_sub_version(), self.height, self.relay)
 
+    def serialize_addr_payload(self, to_addresse, addr_list):
+        """Serialize the payload for a addr message.
+
+        Args:
+            to_addr (tuple): tuple containing:
+                host (str): Host
+                port (int): Port
+            addr_list (list): These addresses are the content fo the message
+
+        Returns:
+            bytes: The packed address
+        """
+        # return struct.pack('<i', len(addr_list), self.serialize_network_address())
+        pass
+
     def deserialize_header(self, data):
         """Deserialize header of a message.
 
@@ -145,9 +160,9 @@ class Serializer(object):
         # services; not used
         unpack_util("<Q", data.read(8))
         msg['timestamp'] = unpack_util("<q", data.read(8))
-        # to_addr; not used (its us)
+        msg['address'] = self.deserialize_network_address(data)
+        # from_addr; not used
         self.deserialize_network_address(data)
-        msg['from_addr'] = self.deserialize_network_address(data)
         # nonce; not used
         unpack_util("<Q", data.read(8))
         # user agent; not used

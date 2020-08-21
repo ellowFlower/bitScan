@@ -23,15 +23,11 @@ def main():
 
     for address in addresses:
         conn = Connection((address, 8333))
-        # conn = Connection(('127.0.0.1', 18444)) 88.99.167.175, 192.168.0.119
-        # conn = Connection(('127.0.0.1', 18444))
         try:
             conn.open()
-            handshake_msgs = conn.handshake()
-            addr_msgs = conn.getaddr_addr()
-
-            print(handshake_msgs)
-            print(addr_msgs)
+            conn.handshake()
+            # addr_msgs = conn.getaddr_addr()
+            conn.recv_permanent(5)
 
         except (ConnectionError, RemoteHostClosedConnection, MessageContentError, socket.error) as err:
             logging.error("Error occured: {}".format(err))
