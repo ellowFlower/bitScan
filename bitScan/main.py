@@ -7,16 +7,12 @@ from bitScan.exception import *
 
 
 def main():
-    """Create a connection and send getaddr message to the bitcoin nodes which address is read from a csv file.
-
-    Note:
-        The csv file must only contain the addresses delimited by ','. No newline character or space in between.
-    """
+    """Use only for testing purpose."""
     logging.basicConfig(level=logging.DEBUG)
 
     # read file
     addresses = []
-    with open('../addresses_bitcoin_nodes.csv', 'r') as data:
+    with open('../getaddr.csv', 'r') as data:
         csv_reader = csv.reader(data, delimiter=',')
         for row in csv_reader:
             addresses.extend(row)

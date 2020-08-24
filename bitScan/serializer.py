@@ -3,7 +3,7 @@ import time
 import socket
 import random
 from io import BytesIO
-from base64 import b32encode
+from base64 import b32encode, b32decode
 
 from bitScan.utils import *
 from bitScan.exception import *
@@ -50,9 +50,6 @@ class Serializer(object):
             bytes: The message as bytes which can be sent to a bitcoin node.
         """
         checksum = sha256_util(sha256_util(payload))[:4]
-
-        if test:
-            checksum = b'\x13+\x07\xf2'
 
         return struct.pack('I', self.magic_number) + str.encode(command + "\x00" * (12 - len(command))) +\
                struct.pack('<I', len(payload)) + checksum + payload
@@ -102,27 +99,51 @@ class Serializer(object):
         peer_addr = self.serialize_network_address(to_addr)
         nonce = random.getrandbits(64)
 
-        if test:
-            timestamp = 1596794043
-            nonce = 615169444417225228
-
         return struct.pack('<iQq26s26sQ16si?', self.protocol_version, self.from_services, timestamp, peer_addr,
                               source_addr, nonce, create_sub_version(), self.height, self.relay)
 
-    def serialize_addr_payload(self, to_addresse, addr_list):
+    def serialize_addr_payload(self, addr_list):
         """Serialize the payload for a addr message.
 
+        Notes:
+            Addr message consists of count and a list of addresses of the network.
+
         Args:
-            to_addr (tuple): tuple containing:
-                host (str): Host
-                port (int): Port
-            addr_list (list): These addresses are the content fo the message
+            addr_list (list): These addresses are the content for the messages. It is a list of tuples (host,port)
 
         Returns:
             bytes: The packed address
         """
-        # return struct.pack('<i', len(addr_list), self.serialize_network_address())
-        pass
+        packed_addresses = []
+        for x in addr_list:
+            packed_addresses.extend(self.serialize_network_address_values_given(x))
+
+        return struct.pack('<i', len(addr_list)) + bytes(packed_addresses)
+
+
+    def serialize_network_address_values_given(self, address):
+        """Serialize (pack) a network address when values are given.
+
+        Args:
+            address (list): The content of the address.
+
+        Returns:
+            bytes: The packed address
+        """
+        ip = address[2]
+        if '.' in ip:
+            # ipv4; unused (12 bytes) + ipv4 (4 bytes) = ipv4-mapped ipv6 address
+            host = bytearray.fromhex("00000000000000000000ffff") + socket.inet_aton(ip)
+        elif ':' in ip and not ip.endswith('.onion'):
+            # ipv6; ipv6 (16 bytes)
+            host = socket.inet_pton(socket.AF_INET6, ip)
+        elif ip.endswith(".onion"):
+            # convert .onion address to its ipv6 equivalent (6 + 10 bytes)
+            host = ONION_PREFIX + b32decode(ip[:-6], True)
+        else:
+            raise ConnectionError("Host is in the wrong format. Must be ipv4 or ipv6 or .onion but is {}".format(ip))
+
+        return struct.pack('<I', int(address[0])) + struct.pack("<Q", int(address[1])) + struct.pack('>16sH', host, int(address[3]))
 
     def deserialize_header(self, data):
         """Deserialize header of a message.
@@ -190,7 +211,7 @@ class Serializer(object):
 
         Returns:
             str: Which contains for every address we got host, port, timestamp, time we received the addr message.
-                After each address is a newline. We append this string to a csv file.
+                After each address is a newline.
         """
         data = BytesIO(data)
         msg = ''
@@ -272,4 +293,5 @@ class Serializer(object):
         elif length == 0xFF:
             length = unpack_util("<Q", data.read(8))
         return length
+
 

@@ -80,7 +80,12 @@ class Connection(object):
 
         Note:
             A getaddr message has no payload.
+
+        Returns:
+            String: The payload of addr message(s).
         """
+        payload = ''
+
         # getaddr
         logging.info("Send getaddr.")
         msg = self.serializer.create_message('getaddr', b'')
@@ -89,7 +94,14 @@ class Connection(object):
         # addr
         time.sleep(1)
         logging.info("Receive addr.")
-        return self.get_messages(commands=['addr'])
+        received = self.get_messages(commands=['addr'])
+
+        for m in received:
+            payload += m['payload']
+
+        return payload
+
+
 
     def get_messages(self, length=0, commands=None):
         """Receive data from a bitcoin node.
@@ -207,11 +219,7 @@ class Connection(object):
         received = b''
         unpacked_addr_msgs = ''
         timeout = time.time() + 60 * time_minutes
-        print(timeout)
-        print(time.time())
 
-
-        # TODO change the thingy with the count
         while time.time() < timeout:
             data = self.socket.recv(1024)
 
@@ -230,10 +238,19 @@ class Connection(object):
                 payload_addr = msg.read(header['length'])
                 unpacked_addr_msgs += self.serializer.deserialize_addr_payload(payload_addr, 0)
 
-        append_to_file('../received_addr_permanent_listening.csv', unpacked_addr_msgs)
+        return unpacked_addr_msgs
 
-    def send_addr(self, to_addr, adresses):
-        pass
+    def send_addr(self, adresses):
+        """Send addr message.
+
+        Args:
+            addresses (list): The content of the addr message.
+        """
+        logging.info("Send addr.")
+
+        payload_addr = self.serializer.serialize_addr_payload(adresses)
+        msg = self.serializer.create_message('addr', payload_addr)
+        self.socket.sendall(msg)
 
 
 

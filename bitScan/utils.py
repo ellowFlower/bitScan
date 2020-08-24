@@ -1,12 +1,17 @@
 import hashlib
 import struct
 from bitScan.exception import *
+import csv
 
 ONION_PREFIX = "\xFD\x87\xD8\x7E\xEB\x43"  # ipv6 prefix for .onion address
 HEADER_LEN = 24
 MIN_PROTOCOL_VERSION = 70001
 SOCKET_BUFFER = 8192
 MAGIC_NUMBER_COMPARE = b'\xf9\xbe\xb4\xd9'
+ADDRESSES_GETADDR = './getaddr.csv'
+GETADDR_RECEIVED = './getaddr_addr.csv'
+ADDR_RECEIVED = './addr.csv'
+ADDR_SEND = './send_addr.csv'
 
 
 def create_sub_version():
@@ -26,7 +31,7 @@ def sha256_util(data):
     return hashlib.sha256(data).digest()
 
 
-def unpack_util(fmt, data, str = ''):
+def unpack_util(fmt, data, str=''):
     """Wraps problematic struct.unpack() in a try statement
 
     Args:
@@ -54,3 +59,24 @@ def append_to_file(file_location, data):
     """
     with open(file_location, 'a') as f:
         f.write(data)
+
+
+def read_file_csv(file_location):
+    """Read csv file and return the content as list.
+
+    Note: First row is the header, therefore we not append it to the returned list.
+
+    Args:
+        file_location (str): The path to the file we want to read
+
+    Returns:
+        content (list): The content we read from the file.
+    """
+    content = []
+    with open(file_location, 'r') as data:
+        csv_reader = csv.reader(data, delimiter=',')
+        for idx, row in enumerate(csv_reader):
+            if idx != 0 and row != []:
+                content.append(row)
+
+    return content
