@@ -14,14 +14,20 @@ logging.basicConfig(level=logging.DEBUG)
 addresses = read_file_csv(ADDRESSES_GETADDR)
 content_addr_msg = read_file_csv(ADDR_SEND)
 
+count = 5
+
 for address in addresses:
     conn = Connection((address[0], int(address[1])))
-    try:
-        conn.open()
-        conn.handshake()
-        conn.send_addr(content_addr_msg)
+    while count > 0:
+        try:
+            conn.open()
+            conn.handshake()
+            conn.send_addr(content_addr_msg)
 
-    except (ConnectionError, RemoteHostClosedConnection, MessageContentError, socket.error) as err:
-        logging.error("Error occured: {}".format(err))
+        except (ConnectionError, RemoteHostClosedConnection, MessageContentError, socket.error) as err:
+            logging.error("Error occured: {}".format(err))
+
+        time.sleep(240)
+        count -= 1
 
     conn.close()

@@ -216,15 +216,21 @@ class Connection(object):
         Args:
             time_minutes (int): The amount of time how long we want to listen on the socket. In minutes.
         """
+        logging.info("Listen for addr messages.")
+
         received = b''
         unpacked_addr_msgs = ''
         timeout = time.time() + 60 * time_minutes
 
         while time.time() < timeout:
+            print('before receiving data')
             data = self.socket.recv(1024)
-
+            print(f'data: {data}')
             if not data:
-                raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
+                time.sleep(5)
+                data = self.socket.recv(1024)
+                if not data:
+                    break
 
             received += data
             # for not hogging the CPU
@@ -238,6 +244,7 @@ class Connection(object):
                 payload_addr = msg.read(header['length'])
                 unpacked_addr_msgs += self.serializer.deserialize_addr_payload(payload_addr, 0)
 
+        print(f'addr messages received: {unpacked_addr_msgs}')
         return unpacked_addr_msgs
 
     def send_addr(self, adresses):

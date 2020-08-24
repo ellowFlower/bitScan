@@ -17,7 +17,7 @@ for address in addresses:
     try:
         conn.open()
         conn.handshake()
-        received_addr = conn.recv_permanent(5)
+        received_addr = conn.recv_permanent(25)
         append_to_file(ADDR_RECEIVED, received_addr)
 
     except (ConnectionError, RemoteHostClosedConnection, MessageContentError, socket.error) as err:
