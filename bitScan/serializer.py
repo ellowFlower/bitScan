@@ -218,7 +218,7 @@ class Serializer(object):
 
         count = self.deserialize_int(data)
         for _ in range(count):
-            msg += self.deserialize_network_address(data, has_timestamp=True) + ', ' + str(current_time) + '\n'
+            msg += self.deserialize_network_address(data, has_timestamp=True) + ',' + str(current_time) + '\n'
 
         return msg
 

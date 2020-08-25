@@ -221,13 +221,14 @@ class Connection(object):
         received = b''
         unpacked_addr_msgs = ''
         timeout = time.time() + 60 * time_minutes
+        current_time = -1
 
         while time.time() < timeout:
-            print('before receiving data')
+            current_time = time.time()
             data = self.socket.recv(1024)
-            print(f'data: {data}')
             if not data:
                 time.sleep(5)
+                current_time = time.time()
                 data = self.socket.recv(1024)
                 if not data:
                     break
@@ -242,12 +243,11 @@ class Connection(object):
                 msg = BytesIO(msg)
                 header = self.serializer.deserialize_header(MAGIC_NUMBER_COMPARE + msg.read(HEADER_LEN-4))
                 payload_addr = msg.read(header['length'])
-                unpacked_addr_msgs += self.serializer.deserialize_addr_payload(payload_addr, 0)
+                unpacked_addr_msgs += self.serializer.deserialize_addr_payload(payload_addr, current_time)
 
-        print(f'addr messages received: {unpacked_addr_msgs}')
         return unpacked_addr_msgs
 
-    def send_addr(self, adresses):
+    def send_addr(self, addresses):
         """Send addr message.
 
         Args:
@@ -255,7 +255,7 @@ class Connection(object):
         """
         logging.info("Send addr.")
 
-        payload_addr = self.serializer.serialize_addr_payload(adresses)
+        payload_addr = self.serializer.serialize_addr_payload(addresses)
         msg = self.serializer.create_message('addr', payload_addr)
         self.socket.sendall(msg)
 

@@ -70,7 +70,7 @@ def read_file_csv(file_location):
         file_location (str): The path to the file we want to read
 
     Returns:
-        content (list): The content we read from the file.
+        content (list): The content we read from the file. The element in the list are lists also.
     """
     content = []
     with open(file_location, 'r') as data:
