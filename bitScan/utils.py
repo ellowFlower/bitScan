@@ -8,13 +8,13 @@ HEADER_LEN = 24
 MIN_PROTOCOL_VERSION = 70001
 SOCKET_BUFFER = 8192
 MAGIC_NUMBER_COMPARE = b'\xf9\xbe\xb4\xd9'
-ADDRESSES_GETADDR = './getaddr.csv'
-GETADDR_RECEIVED = './getaddr_addr.csv'
-ADDR_RECEIVED = './addr.csv'
-ADDR_SEND = './send_addr.csv'
-LOG_SEND_ADDR = './log_send_addr.txt'
-LOG_SEND_GETADDR = './log_send_getaddr.txt'
-LOG_RECEIVE_ADDR = './log_received_addr.txt'
+ADDRESSES_GETADDR = './input_output/getaddr.csv'
+GETADDR_RECEIVED = './input_output/getaddr_addr.csv'
+ADDR_RECEIVED = './input_output/addr.csv'
+ADDR_SEND = './input_output/send_addr.csv'
+LOG_SEND_ADDR = './logs/log_send_addr.txt'
+LOG_SEND_GETADDR = './logs/log_send_getaddr.txt'
+LOG_RECEIVE_ADDR = './logs/log_received_addr.txt'
 
 
 def create_sub_version():
