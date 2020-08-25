@@ -1,0 +1,1 @@
+ERROR:root:Error occured in connection with bitcoin node 188.23.39.216,8333: ('188.23.39.216', 8333) closed connection
