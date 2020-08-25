@@ -12,6 +12,9 @@ ADDRESSES_GETADDR = './getaddr.csv'
 GETADDR_RECEIVED = './getaddr_addr.csv'
 ADDR_RECEIVED = './addr.csv'
 ADDR_SEND = './send_addr.csv'
+LOG_SEND_ADDR = './log_send_addr.txt'
+LOG_SEND_GETADDR = './log_send_getaddr.txt'
+LOG_RECEIVE_ADDR = './log_received_addr.txt'
 
 
 def create_sub_version():

@@ -10,7 +10,8 @@ import time
 Note:
     The csv file must only contain the addresses delimited by ','. No newline character or space in between.
 """
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(filename=LOG_SEND_ADDR, level=logging.ERROR)
+
 
 def start(address):
     count = 3
@@ -21,11 +22,10 @@ def start(address):
             conn.handshake()
             conn.send_addr(content_addr_msg)
 
+            time.sleep(240)
+            count -= 1
         except (ConnectionError, RemoteHostClosedConnection, MessageContentError, socket.error) as err:
-            logging.error("Error occured: {}".format(err))
-
-        time.sleep(240)
-        count -= 1
+            logging.error("Error occured in connection with bitcoin node {},{}: {}".format(address[0], address[1], err))
 
     conn.close()
 
@@ -36,21 +36,3 @@ p = multiprocessing.Pool()
 p.map(start, addresses)
 p.close()
 
-
-# count = 5
-
-# for address in addresses:
-#     conn = Connection((address[0], int(address[1])))
-#     while count > 0:
-#         try:
-#             conn.open()
-#             conn.handshake()
-#             conn.send_addr(content_addr_msg)
-#
-#         except (ConnectionError, RemoteHostClosedConnection, MessageContentError, socket.error) as err:
-#             logging.error("Error occured: {}".format(err))
-#
-#         time.sleep(240)
-#         count -= 1
-#
-#     conn.close()

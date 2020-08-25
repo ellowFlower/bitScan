@@ -34,17 +34,12 @@ class Serializer(object):
         self.height = 0
         self.relay = 0
 
-    def create_message(self, command, payload, test=False):
+    def create_message(self, command, payload):
         """Create full message which can be send to a bitcoin node.
-
-        Note:
-            Using the test argument to used the same checksum for two different calls of this method.
-            Therefore we can compare the outcome.
 
         Args:
             command (str): The command type for the message. E.g: 'version'.
             payload (bytes): Content is the already packed payload of the message
-            test (bool): Indicate if the function is used in a test
 
         Returns:
             bytes: The message as bytes which can be sent to a bitcoin node.
@@ -80,7 +75,7 @@ class Serializer(object):
 
         return struct.pack("<Q", 1) + struct.pack('>16sH', host, addr[1])
 
-    def serialize_version_payload(self, to_addr, from_addr, test=False):
+    def serialize_version_payload(self, to_addr, from_addr):
         """Serialize the payload for a version message.
 
         Args:
@@ -119,7 +114,6 @@ class Serializer(object):
             packed_addresses.extend(self.serialize_network_address_values_given(x))
 
         return struct.pack('<i', len(addr_list)) + bytes(packed_addresses)
-
 
     def serialize_network_address_values_given(self, address):
         """Serialize (pack) a network address when values are given.
