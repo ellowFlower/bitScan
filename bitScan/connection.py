@@ -152,7 +152,7 @@ class Connection(object):
                 self.socket.sendall(self.serializer.create_message('verack', b''))
             elif msg['command'] == 'addr':
                 # we get a string here
-                msg.update({'payload':self.serializer.deserialize_addr_payload(payload, current_time)})
+                msg.update({'payload':self.to_addr[0] + ',' + str(self.to_addr[1]) + ',' + self.serializer.deserialize_addr_payload(payload, current_time)})
             else:
                 unused_chunk = payload
 
@@ -243,7 +243,7 @@ class Connection(object):
                 msg = BytesIO(msg)
                 header = self.serializer.deserialize_header(MAGIC_NUMBER_COMPARE + msg.read(HEADER_LEN-4))
                 payload_addr = msg.read(header['length'])
-                unpacked_addr_msgs += self.serializer.deserialize_addr_payload(payload_addr, current_time)
+                unpacked_addr_msgs += self.to_addr[0] + ',' + str(self.to_addr[1]) + ',' + self.serializer.deserialize_addr_payload(payload_addr, current_time)
 
         return unpacked_addr_msgs
 
