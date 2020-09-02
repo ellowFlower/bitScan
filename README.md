@@ -5,4 +5,4 @@ This program communicates with the bitcoin network on network level. It consists
 - Listening for addr messages for a specific amount of time.
 - Send addr messages to other nodes in the network.
 
-To start the scanner run the file `run.sh`.
+To start the scanner run the file `main.py` in `bitScan/bitScan`.
