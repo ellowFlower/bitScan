@@ -25,8 +25,7 @@ class Serializer(object):
         height (int): Indicates which block our node is synced up to.
     """
     def __init__(self):
-        logging.info('Create serialize object.')
-        # TODO change if running on real network
+        logging.info('SER Create serialize object.')
         self.magic_number = 0xd9b4bef9  # 0xd9b4bef9 0xfabfb5da 0x0b110907
         self.protocol_version = 70015
         self.to_services = 1
@@ -64,6 +63,8 @@ class Serializer(object):
         Returns:
             bytes: The packed address
         """
+        logging.info('SER Serialize network address.')
+
         if '.' in addr[0]:
             # ipv4; unused (12 bytes) + ipv4 (4 bytes) = ipv4-mapped ipv6 address
             host = bytearray.fromhex("00000000000000000000ffff") + socket.inet_aton(addr[0])
@@ -89,6 +90,8 @@ class Serializer(object):
         Returns:
             bytes: The packed address
         """
+        logging.info('SER Serialize version payload.')
+
         timestamp = int(time.time())
         source_addr = self.serialize_network_address(from_addr)
         peer_addr = self.serialize_network_address(to_addr)
@@ -109,6 +112,8 @@ class Serializer(object):
         Returns:
             bytes: The packed address
         """
+        logging.info('SER Serialize addr payload.')
+
         packed_addresses = []
         for x in addr_list:
             packed_addresses.extend(self.serialize_network_address_values_given(x))
@@ -124,6 +129,8 @@ class Serializer(object):
         Returns:
             bytes: The packed address
         """
+        logging.info('SER Serialize network address values given.')
+
         ip = address[2]
         if '.' in ip:
             # ipv4; unused (12 bytes) + ipv4 (4 bytes) = ipv4-mapped ipv6 address
@@ -143,7 +150,8 @@ class Serializer(object):
         """Deserialize header of a message.
 
         Note:
-            Header contains: magic number, command, length of payload, checksum
+            Header contains: magic number, command, length of payload, checksum.
+            data.read returns a empty byte object if there is nothing to read.
 
         Args:
             data (bytes): Header content
@@ -151,9 +159,11 @@ class Serializer(object):
         Returns:
             dict: Dictionary with all the content from the header in a readable format.
         """
+        logging.info('SER Deserialize header.')
+
         data = BytesIO(data)
         return {'magic_number': data.read(4), 'command': data.read(12).strip(b"\x00").decode("latin-1"),
-               'length': unpack_util("<I", data.read(4), 'deserialization header length'), 'checksum': data.read(4)}
+               'length': unpack_util("<I", data.read(4)), 'checksum': data.read(4)}
 
     def deserialize_version_payload(self, data):
         """Deserialize version payload.
@@ -167,6 +177,8 @@ class Serializer(object):
         Returns:
             dict: timestamp and the address we receive the version message from
         """
+        logging.info('SER Deserialize version payload.')
+
         data = BytesIO(data)
         msg = {}
 
@@ -193,7 +205,7 @@ class Serializer(object):
 
         return msg
 
-    def deserialize_addr_payload(self, data, current_time):
+    def deserialize_addr_payload(self, data, current_time, connected_host, connected_port):
         """Deserialize addr payload.
 
         Note:
@@ -202,19 +214,26 @@ class Serializer(object):
         Args:
             data (bytes): Payload content
             current_time (float)
+            connected_host (str): Host for current connection
+            connected_port (str): ort for current connection
 
         Returns:
             str: Which contains for every address we got host, port, timestamp, time we received the addr message.
                 After each address is a newline.
         """
+        logging.info('SER Deserialize addr payload.')
+
         data = BytesIO(data)
         msg = ''
+        is_getaddr_response = False
 
         count = self.deserialize_int(data)
+        if count > 10:
+            is_getaddr_response = True
         for _ in range(count):
-            msg += self.deserialize_network_address(data, has_timestamp=True) + ',' + str(current_time) + '\n'
+            msg += connected_host + ',' + connected_port + ',' + self.deserialize_network_address(data, has_timestamp=True) + ',' + str(current_time) + '\n'
 
-        return msg
+        return msg, is_getaddr_response
 
     def deserialize_network_address(self, data, has_timestamp=False):
         """Deserialize network address.
@@ -224,12 +243,14 @@ class Serializer(object):
             One of ipv4, ipv6 and onion has a value.
 
         Args:
-            data (bytes): Network address content.
+            data (BytesIO): Network address content.
             has_timestamp (bool): Indicates if a timestamp exists.
 
         Returns:
             str: host, port, timestamp
         """
+        logging.info('SER Deserialize nerwork address.')
+
         timestamp = None
         if has_timestamp:
             timestamp = unpack_util("<I", data.read(4))
@@ -268,17 +289,21 @@ class Serializer(object):
         Returns:
             dict: Dictionary with all the content from the network address in a readable format.
         """
+        logging.info('SER Deserialize string.')
+
         length = self.deserialize_int(data)
         return data.read(length).decode('utf-8')
 
     def deserialize_int(self, data):
         """
         Args:
-            data (bytes): Network address content.
+            data (BytesIO): Network address content.
 
         Returns:
             int: Length of given data
         """
+        logging.info('SER Deserialize int.')
+
         length = unpack_util("<B", data.read(1))
         if length == 0xFD:
             length = unpack_util("<H", data.read(2))

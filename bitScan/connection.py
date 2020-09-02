@@ -10,7 +10,6 @@ from bitScan.serializer import Serializer
 from bitScan.utils import *
 
 
-
 class Connection(object):
     """Handles the connection to a bitcoin node.
 
@@ -28,12 +27,12 @@ class Connection(object):
         socket (obj): Socket for communication with a bitcoin node.
         handshake_done (bool): Indicates if the handshake with the bitcoin node was successful.
     """
+
     def __init__(self, to_addr):
-        logging.info('Create connection object.')
+        logging.info(f'CONN Create connection to {to_addr[0]},{to_addr[1]}.')
 
         self.to_addr = to_addr
         self.from_addr = ('0.0.0.0', 0)
-        # TODO Maybe not necessary to use a own serializer object for every connection
         self.serializer = Serializer()
         self.socket = None
         self.handshake_done = False
@@ -45,10 +44,8 @@ class Connection(object):
             The address of the bitcoin node is taken from to_addr. The active connection is accesible
             through self.socket.
         """
-        logging.info('Open connection.')
-        # works for ipv4 and ipv6
+        logging.info('CONN Open connection.')
         self.socket = socket.create_connection(self.to_addr)
-
 
     def close(self):
         logging.info("Close connection if active.")
@@ -65,7 +62,7 @@ class Connection(object):
         Returns:
             list: The response of the handshake in a readable format.
         """
-        logging.info("Make handshake.")
+        logging.info("CONN Make handshake.")
 
         payload_version = self.serializer.serialize_version_payload(self.to_addr, self.from_addr)
         msg = self.serializer.create_message('version', payload_version)
@@ -74,34 +71,20 @@ class Connection(object):
         # <<< [header version 24 bytes][version 102 bytes] [verack 24 bytes]
         return self.get_messages(length=150, commands=['version', 'verack'])
 
-
-    def getaddr_addr(self):
-        """Send getaddr and then receive addr message.
+    def send_getaddr(self):
+        """Send getaddr message.
 
         Note:
             A getaddr message has no payload.
-
-        Returns:
-            String: The payload of addr message(s).
         """
+        logging.info("CONN Send getaddr.")
+
         payload = ''
 
         # getaddr
         logging.info("Send getaddr.")
         msg = self.serializer.create_message('getaddr', b'')
         self.socket.sendall(msg)
-
-        # addr
-        time.sleep(1)
-        logging.info("Receive addr.")
-        received = self.get_messages(commands=['addr'])
-
-        for m in received:
-            payload += m['payload']
-
-        return payload
-
-
 
     def get_messages(self, length=0, commands=None):
         """Receive data from a bitcoin node.
@@ -112,6 +95,7 @@ class Connection(object):
             If a version message is received, send a verack message immediately.
             Because it is possible, that we receive more than the messages we want to handle further, we
             filter the response in the end.
+            Is only used for version/verack
 
         Args:
             length (int): Number of how many bytes we want to read.
@@ -121,6 +105,8 @@ class Connection(object):
             A readable format of all message we got. [msg1, msg2, ...]
             msg = {<headerValues>, <payload>}
         """
+        logging.info("CONN Receive data from a bitcoin node.")
+
         data, current_time = self.recv(length)
         length = len(data)
         data = BytesIO(data)
@@ -128,31 +114,25 @@ class Connection(object):
 
         # read until buffer is empty or after addr message is read (because we don't know the size)
         while length > 0:
-            # header
             msg = self.serializer.deserialize_header(data.read(HEADER_LEN))
 
-            # check values (exception handling)
-            # TODO maybe put it in a own function bec of readability
             if (length - HEADER_LEN) < msg['length']:
-                raise MessageContentError(
+                raise HandshakeContentError(
                     "Payload is to short. Got {} of {} bytes".format(length, HEADER_LEN + msg['length']))
 
             if MAGIC_NUMBER_COMPARE != msg['magic_number']:
-                raise MessageContentError(
+                raise HandshakeContentError(
                     "Wrong magic value. Is {}, should be ".format(msg['magic_number'], MAGIC_NUMBER_COMPARE))
 
-            # payload
             payload = data.read(msg['length'])
             computed_checksum = sha256_util(sha256_util(payload))[:4]
             if computed_checksum != msg['checksum']:
-                raise MessageContentError("Invalid checksum. {} != {}".format(hexlify(computed_checksum), hexlify(msg['checksum'])))
+                raise HandshakeContentError(
+                    "Invalid checksum. {} != {}".format(hexlify(computed_checksum), hexlify(msg['checksum'])))
 
             if msg['command'] == 'version':
-                msg.update({'payload':self.serializer.deserialize_version_payload(payload)})
+                msg.update({'payload': self.serializer.deserialize_version_payload(payload)})
                 self.socket.sendall(self.serializer.create_message('verack', b''))
-            elif msg['command'] == 'addr':
-                # we get a string here
-                msg.update({'payload':self.to_addr[0] + ',' + str(self.to_addr[1]) + ',' + self.serializer.deserialize_addr_payload(payload, current_time)})
             else:
                 unused_chunk = payload
 
@@ -182,8 +162,8 @@ class Connection(object):
         Returns:
             The receive data in bytes and the current time when receiving the data
         """
-        # TODO save time when receive message
-        # maybe this function is unecessary because when we listen for addr messages passively we also receive the messages
+        logging.info("CONN Receive length data from a socket.")
+
         current_time = -1
         if length > 0:
             data = b''
@@ -197,8 +177,6 @@ class Connection(object):
                 data += chunk
                 length -= len(chunk)
         else:
-            # addr messages go here immediately
-            # time in seconds as floating point number; only relevant for addr messages
             current_time = time.time()
             data = self.socket.recv(SOCKET_BUFFER)
 
@@ -207,45 +185,116 @@ class Connection(object):
 
         return data, current_time
 
-    def recv_permanent(self, time_minutes):
-        """Receive addr message from a socket.
+    def communicate(self, time_minutes, content_addr_msg, interval_getaddr=-1, interval_addr=-1):
+        """Send getaddr and addr messages in a time interval and listen permanently for incoming addr messages.
 
-        Notes:
-            Listen on a socket permanently and write out all addr messages we get into a file.
+        Note:
+            If something went wrong during receiving or reading the data then continue with next while round.
 
         Args:
             time_minutes (int): The amount of time how long we want to listen on the socket. In minutes.
-        """
-        logging.info("Listen for addr messages.")
+            content_addr_msg (list): The content of the addr message.
+            interval_getaddr (int): Interval in minutes when we send getaddr messages. -1 implies we never want to send.
+            interval_addr (int): Interval in minutes when we send addr messages. -1 implies we never want to send.
 
-        received = b''
+        Returns:
+            (tuple): tuple containing:
+                unpacked_addr_msgs (str): The received addresses from voluntary addr messages in a readable format.
+                unpacked_getaddr_msgs (str): The received addresses from responses to getaddr messages in a readable format.
+        """
+        logging.info("CONN Start communication.")
+
+        data_buffer = b''
         unpacked_addr_msgs = ''
-        timeout = time.time() + 60 * time_minutes
+        unpacked_getaddr_msgs = ''
+        time_begin = time.time()
+        timeout = time_begin + 60 * time_minutes
+        last_sent_getaddr = -1
+        last_sent_addr = -1
         current_time = -1
 
         while time.time() < timeout:
-            current_time = time.time()
-            data = self.socket.recv(1024)
-            if not data:
-                time.sleep(5)
+            try:
                 current_time = time.time()
-                data = self.socket.recv(1024)
+                data = self.socket.recv(8192)
                 if not data:
-                    break
+                    time.sleep(5)
+                    current_time = time.time()
+                    data = self.socket.recv(8192)
+                    if not data:
+                        break
 
-            received += data
-            # for not hogging the CPU
-            time.sleep(1)
+                data_buffer += data
 
-        received_messages = received.split(MAGIC_NUMBER_COMPARE)
-        for msg in received_messages:
-            if re.compile(b'^addr').match(msg):
-                msg = BytesIO(msg)
-                header = self.serializer.deserialize_header(MAGIC_NUMBER_COMPARE + msg.read(HEADER_LEN-4))
-                payload_addr = msg.read(header['length'])
-                unpacked_addr_msgs += self.to_addr[0] + ',' + str(self.to_addr[1]) + ',' + self.serializer.deserialize_addr_payload(payload_addr, current_time)
+                # get minutes
+                now = time.gmtime()[4]
+                if interval_getaddr != -1 and now != last_sent_getaddr and (
+                        now - time.gmtime(time_begin)[4]) % interval_getaddr == 0:
+                    last_sent_getaddr = now
+                    self.send_getaddr()
 
-        return unpacked_addr_msgs
+                if interval_addr != -1 and now != last_sent_addr and (
+                        now - time.gmtime(time_begin)[4]) % interval_addr == 0:
+                    last_sent_addr = now
+                    self.send_addr(content_addr_msg)
+
+                data_split = data_buffer.split(MAGIC_NUMBER_COMPARE)
+                length_data_split = len(data_split)
+                for idx, msg in enumerate(data_split):
+                    if idx != (len(data_split) - 1):
+                        # whole message can be read
+                        if re.compile(b'^addr').match(msg):
+                            response, is_getaddr_response = self.get_deserialized_addr_message(msg, current_time)
+                            if is_getaddr_response:
+                                unpacked_getaddr_msgs += response
+                            else:
+                                unpacked_addr_msgs += response
+                    else:
+                        # last index; message may be continued
+                        data_buffer = msg
+            except MessageContentError as err:
+                data_buffer = b''
+                logging.error(
+                    "Error occurred in connection with bitcoin node {},{}: {}".format(self.to_addr[0], self.to_addr[1],
+                                                                                      err))
+                continue
+
+        # deserialize last message received if addr
+        if re.compile(b'^addr').match(data_buffer):
+            try:
+                response, is_getaddr_response = self.get_deserialized_addr_message(data_buffer, current_time)
+                if is_getaddr_response:
+                    unpacked_getaddr_msgs += response
+                else:
+                    unpacked_addr_msgs += response
+            except MessageContentError as err:
+                logging.error(
+                    "Error occured in connection with bitcoin node {},{}: {}".format(self.to_addr[0], self.to_addr[1],
+                                                                                     err))
+                return unpacked_addr_msgs, unpacked_getaddr_msgs
+
+        return unpacked_addr_msgs, unpacked_getaddr_msgs
+
+    def get_deserialized_addr_message(self, msg, current_time):
+        """Calls all functions to deserialize an addr message
+
+        Args:
+            msg (bytes): the content of the message.
+            current_time (float): The time when the message was received.
+
+        Returns:
+            addr messages in a readable format
+        """
+        logging.info("CONN Get deserialized addr message.")
+
+        if msg != b'':
+            msg = BytesIO(msg)
+            header = self.serializer.deserialize_header(MAGIC_NUMBER_COMPARE + msg.read(HEADER_LEN - 4))
+            payload_addr = msg.read(header['length'])
+            return self.serializer.deserialize_addr_payload(payload_addr, current_time, self.to_addr[0],
+                                                            str(self.to_addr[1]))
+
+        return ''
 
     def send_addr(self, addresses):
         """Send addr message.
@@ -253,16 +302,8 @@ class Connection(object):
         Args:
             addresses (list): The content of the addr message.
         """
-        logging.info("Send addr.")
+        logging.info("CONN Send addr.")
 
         payload_addr = self.serializer.serialize_addr_payload(addresses)
         msg = self.serializer.create_message('addr', payload_addr)
         self.socket.sendall(msg)
-
-
-
-
-
-
-
-

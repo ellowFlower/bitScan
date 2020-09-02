@@ -2,19 +2,19 @@ import hashlib
 import struct
 from bitScan.exception import *
 import csv
+import logging
 
 ONION_PREFIX = "\xFD\x87\xD8\x7E\xEB\x43"  # ipv6 prefix for .onion address
 HEADER_LEN = 24
 MIN_PROTOCOL_VERSION = 70001
 SOCKET_BUFFER = 8192
 MAGIC_NUMBER_COMPARE = b'\xf9\xbe\xb4\xd9'
-ADDRESSES_GETADDR = './input_output/getaddr.csv'
-GETADDR_RECEIVED = './input_output/getaddr_addr.csv'
-ADDR_RECEIVED = './input_output/addr.csv'
-ADDR_SEND = './input_output/send_addr.csv'
-LOG_SEND_ADDR = './logs/log_send_addr.txt'
-LOG_SEND_GETADDR = './logs/log_send_getaddr.txt'
-LOG_RECEIVE_ADDR = './logs/log_received_addr.txt'
+ADDRESSES_GETADDR = '../input_output/getaddr.csv'
+ADDR_RECEIVED = '../input_output/addr_received.csv'
+GETADDR_RECEIVED = '../input_output/getaddr_received.csv'
+CONTENT_ADDR_SEND = '../input_output/send_addr.csv'
+LOG_MAIN = '../logs/log_main.txt'
+
 
 
 def create_sub_version():
@@ -26,15 +26,19 @@ def create_sub_version():
     Returns:
         bytes: Binary encodes sub-version as bytes
     """
+    logging.info('UTIL Create sub version.')
+
     sub_version = "/Satoshi:0.7.2/"
     return b'\x0F' + sub_version.encode()
 
 
 def sha256_util(data):
+    logging.info('UTIL Sha256.')
+
     return hashlib.sha256(data).digest()
 
 
-def unpack_util(fmt, data, str=''):
+def unpack_util(fmt, data):
     """Wraps problematic struct.unpack() in a try statement
 
     Args:
@@ -44,6 +48,8 @@ def unpack_util(fmt, data, str=''):
     Returns:
         Unpacked data, which should be readable.
     """
+    logging.info('UTIL Unpack bytes.')
+
     try:
         return struct.unpack(fmt, data)[0]
     except struct.error as err:
@@ -60,6 +66,8 @@ def append_to_file(file_location, data):
         file_location (str): The path to the file we want to append
         data (str): Data we append
     """
+    logging.info('UTIL Appoend to file.')
+
     with open(file_location, 'a') as f:
         f.write(data)
 
@@ -75,6 +83,8 @@ def read_file_csv(file_location):
     Returns:
         content (list): The content we read from the file. The element in the list are lists also.
     """
+    logging.info('UTIL Read csv file.')
+
     content = []
     with open(file_location, 'r') as data:
         csv_reader = csv.reader(data, delimiter=',')

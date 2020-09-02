@@ -8,3 +8,7 @@ class RemoteHostClosedConnection(Exception):
 
 class MessageContentError(Exception):
     pass
+
+
+class HandshakeContentError(Exception):
+    pass

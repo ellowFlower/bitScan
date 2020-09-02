@@ -2,5 +2,3 @@ venv
 .idea
 docs
 __pycache__/
-input_output
-logs
