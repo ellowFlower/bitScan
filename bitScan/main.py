@@ -26,7 +26,7 @@ def main(address):
     try:
         conn.open()
         conn.handshake()
-        a, b = conn.communicate(15, content_addr_msg, 3, 3)
+        a, b = conn.communicate(5, content_addr_msg, 3, 3)
         received_addr += a
         received_getaddr += b
     except (ConnectionError, RemoteHostClosedConnection, HandshakeContentError, socket.error) as err:
