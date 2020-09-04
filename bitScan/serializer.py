@@ -107,18 +107,18 @@ class Serializer(object):
             Addr message consists of count and a list of addresses of the network.
 
         Args:
-            addr_list (list): These addresses are the content for the messages. It is a list of tuples (host,port)
+            addr_list (list): These addresses are the content for the messages.
 
         Returns:
             bytes: The packed address
         """
         logging.info('SER Serialize addr payload.')
 
-        packed_addresses = []
+        packed_addresses = b''
         for x in addr_list:
-            packed_addresses.extend(self.serialize_network_address_values_given(x))
+            packed_addresses += self.serialize_network_address_values_given(x)
 
-        return struct.pack('<i', len(addr_list)) + bytes(packed_addresses)
+        return self.serialize_int(len(addr_list)).encode('latin-1') + packed_addresses
 
     def serialize_network_address_values_given(self, address):
         """Serialize (pack) a network address when values are given.
@@ -239,7 +239,7 @@ class Serializer(object):
         """Deserialize network address.
 
         Note:
-            Network address contains: timestamp, services, ipv4, ipv6, onion, port.
+            Network address contains: [timestamp], services, ipv4, ipv6, onion, port.
             One of ipv4, ipv6 and onion has a value.
 
         Args:
@@ -247,7 +247,7 @@ class Serializer(object):
             has_timestamp (bool): Indicates if a timestamp exists.
 
         Returns:
-            str: host, port, timestamp
+            str: host, port[, timestamp]
         """
         logging.info('SER Deserialize nerwork address.')
 
@@ -312,5 +312,14 @@ class Serializer(object):
         elif length == 0xFF:
             length = unpack_util("<Q", data.read(8))
         return length
+
+    def serialize_int(self, length):
+        if length < 0xFD:
+            return chr(length)
+        elif length <= 0xFFFF:
+            return chr(0xFD) + str(struct.pack("<H", length))
+        elif length <= 0xFFFFFFFF:
+            return chr(0xFE) + str(struct.pack("<I", length))
+        return chr(0xFF) + str(struct.pack("<Q", length))
 
 
