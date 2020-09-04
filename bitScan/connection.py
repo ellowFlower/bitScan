@@ -172,7 +172,10 @@ class Connection(object):
                 chunk = self.socket.recv(SOCKET_BUFFER)
 
                 if not chunk:
-                    raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
+                    time.sleep(5)
+                    chunk = self.socket.recv(SOCKET_BUFFER)
+                    if not chunk:
+                        raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
 
                 data += chunk
                 length -= len(chunk)
@@ -181,7 +184,10 @@ class Connection(object):
             data = self.socket.recv(SOCKET_BUFFER)
 
             if not data:
-                raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
+                time.sleep(5)
+                data = self.socket.recv(SOCKET_BUFFER)
+                if not data:
+                    raise RemoteHostClosedConnection("{} closed connection".format(self.to_addr))
 
         return data, current_time
 
@@ -269,7 +275,7 @@ class Connection(object):
                     unpacked_addr_msgs += response
             except MessageContentError as err:
                 logging.error(
-                    "Error occured in connection with bitcoin node {},{}: {}".format(self.to_addr[0], self.to_addr[1],
+                    "Error occurred in connection with bitcoin node {},{}: {}".format(self.to_addr[0], self.to_addr[1],
                                                                                      err))
                 return unpacked_addr_msgs, unpacked_getaddr_msgs
 
@@ -277,6 +283,9 @@ class Connection(object):
 
     def get_deserialized_addr_message(self, msg, current_time):
         """Calls all functions to deserialize an addr message
+
+        Note:
+            the parameter msg contains NO magic number.
 
         Args:
             msg (bytes): the content of the message.
@@ -303,7 +312,6 @@ class Connection(object):
             addresses (list): The content of the addr message.
         """
         logging.info("CONN Send addr.")
-
         payload_addr = self.serializer.serialize_addr_payload(addresses)
         msg = self.serializer.create_message('addr', payload_addr)
         self.socket.sendall(msg)

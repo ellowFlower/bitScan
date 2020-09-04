@@ -7,13 +7,10 @@ import multiprocessing
 
 def main(address):
     """Starting point.
-
     Note:
         To use the parameter address as a list this function has to be called with multiprocessing (map).
-
     Args:
         address (list): host,port
-
     Returns:
         (tuple): tuple containing:
             received_addr (str): The received addresses from voluntary addr messages.
@@ -30,7 +27,7 @@ def main(address):
         received_addr += a
         received_getaddr += b
     except (ConnectionError, RemoteHostClosedConnection, HandshakeContentError, socket.error) as err:
-        logging.error("Error occured in connection with bitcoin node {},{}: {}".format(address[0], address[1], err))
+        logging.error("Error occurred in connection with bitcoin node {},{}: {}".format(address[0], address[1], err))
         return received_addr + '\n', received_getaddr
 
     conn.close()
@@ -53,7 +50,3 @@ if __name__ == "__main__":
 
     append_to_file(ADDR_RECEIVED, append_addr)
     append_to_file(GETADDR_RECEIVED, append_getaddr)
-
-
-
-
