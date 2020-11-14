@@ -22,13 +22,14 @@ class Serializer(object):
     Attributes:
         magic_number (str): Bitcoin networks magic number.
         protocol_version (int): Bitcoin protocol version.
+        from_services (int): Services bitcoin node offers.
         height (int): Indicates which block our node is synced up to.
+        relay (int): Indicates bitcoin nodes relaying.
     """
     def __init__(self):
         logging.info('SER Create serialize object.')
         self.magic_number = 0xd9b4bef9  # 0xd9b4bef9 0xfabfb5da 0x0b110907
         self.protocol_version = 70015
-        self.to_services = 1
         self.from_services = 0
         self.height = 0
         self.relay = 0
@@ -48,7 +49,7 @@ class Serializer(object):
         return struct.pack('I', self.magic_number) + str.encode(command + "\x00" * (12 - len(command))) +\
                struct.pack('<I', len(payload)) + checksum + payload
 
-    def serialize_network_address(self, addr):
+    def serialize_network_address_version(self, addr):
         """Serialize (pack) a network address.
 
         Note:
@@ -93,8 +94,8 @@ class Serializer(object):
         logging.info('SER Serialize version payload.')
 
         timestamp = int(time.time())
-        source_addr = self.serialize_network_address(from_addr)
-        peer_addr = self.serialize_network_address(to_addr)
+        source_addr = self.serialize_network_address_version(from_addr)
+        peer_addr = self.serialize_network_address_version(to_addr)
         nonce = random.getrandbits(64)
 
         return struct.pack('<iQq26s26sQ16si?', self.protocol_version, self.from_services, timestamp, peer_addr,
@@ -142,7 +143,8 @@ class Serializer(object):
             # convert .onion address to its ipv6 equivalent (6 + 10 bytes)
             host = ONION_PREFIX + b32decode(ip[:-6], True)
         else:
-            raise ConnectionError("Host is in the wrong format. Must be ipv4 or ipv6 or .onion but is {}".format(ip))
+            # the address was not in the correct format, therefore return empty bytes
+            return b''
 
         return struct.pack('<I', int(address[0])) + struct.pack("<Q", int(address[1])) + struct.pack('>16sH', host, int(address[3]))
 

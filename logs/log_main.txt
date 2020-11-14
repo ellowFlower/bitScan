@@ -1,1 +1,5 @@
-ERROR:root:Error occurred in connection with bitcoin node 37.153.1.150,8333: unpack requires a buffer of 1 bytes
+
+ERROR:root:Error occurred in connection with bitcoin node 2a01:4f8:10a:37ee::2,8333: [Errno 101] Network is unreachable
+ERROR:root:Error occurred in connection with bitcoin node 88.99.167.186,8333: [Errno 111] Connection refused
+ERROR:root:Error occurred in connection with bitcoin node 88.99.167.186,8333: [Errno 111] Connection refused
+ERROR:root:Error occurred in connection with bitcoin node 2a01:4f8:10a:37ee::2,8333: [Errno 101] Network is unreachable
