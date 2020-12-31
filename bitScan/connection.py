@@ -5,6 +5,7 @@ import time
 
 from io import BytesIO
 from binascii import hexlify
+from multiprocessing import Lock
 
 from bitScan.serializer import Serializer
 from bitScan.utils import *
@@ -37,7 +38,7 @@ class Connection(object):
         self.socket = None
         self.handshake_done = False
 
-    def open(self):
+    def open(self, timeout):
         """Create connection to a bitcoin node.
 
         Note:
@@ -45,14 +46,21 @@ class Connection(object):
             through self.socket.
 
             If creating of a connection fails, try it again.
+
+        Args:
+            timeout (int): The time when we want to shutdown in seconds.
         """
         logging.info('CONN Open connection.')
 
         try:
             self.socket = socket.create_connection(self.to_addr)
-        except socket.timeout:
+            self.socket.settimeout(20)
+        except (socket.timeout, socket.error):
             logging.error(f"Creating connection to {self.to_addr[0]}, {self.to_addr[1]} failed. Try again.")
-            self.open()
+            if time.time() < timeout:
+                self.open(timeout)
+            else:
+                raise ConnectionError
 
     def close(self):
         logging.info("Close connection if active.")
@@ -65,6 +73,7 @@ class Connection(object):
         Note:
             To send a message it must be first serialized.
             When receiving a message it must be deserialized to be readable.
+            Try until time is over.
 
         Args:
             timeout (int): The time when we want to shutdown in seconds.
@@ -85,6 +94,8 @@ class Connection(object):
             logging.error(err)
             if time.time() < timeout:
                 self.handshake(timeout)
+            else:
+                raise ConnectionError
 
     def send_getaddr(self):
         """Send getaddr message.
@@ -210,15 +221,18 @@ class Connection(object):
 
         return data, current_time
 
-    def communicate(self, timeout, content_addr_msg, interval_getaddr=-1, interval_addr=-1):
+    def communicate(self, timeout, content_addr_msg, lock, interval_getaddr=-1, interval_addr=-1):
         """Send getaddr and addr messages in a time interval and listen permanently for incoming addr messages.
 
         Note:
             If something went wrong during receiving or reading the data then continue with next while round.
+            Writes messages regularly to file.
+            Stops when time is over or connection is not alive anymore because there is no response to ping message.
 
         Args:
             timeout (int): The Time when we have to shutdown.
             content_addr_msg (list): The content of the addr message.
+            lock (Lock): Lock for concurrent writing of the files
             interval_getaddr (int): Interval in minutes when we send getaddr messages. -1 implies we never want to send.
             interval_addr (int): Interval in minutes when we send addr messages. -1 implies we never want to send.
 
@@ -240,28 +254,25 @@ class Connection(object):
         while time.time() < timeout:
             try:
                 current_time = time.time()
+                self.send_ping()
                 data = self.socket.recv(8192)
                 if not data:
-                    time.sleep(5)
-                    current_time = time.time()
-                    data = self.socket.recv(8192)
-                    if not data:
-                        break
+                    raise PingError
 
                 data_buffer += data
 
                 # get minutes
                 now = time.gmtime()[4]
-                # send message
+                # send getaddr message
                 if interval_getaddr != -1 and now != last_sent_getaddr and (
                         now - time.gmtime(time_begin)[4]) % interval_getaddr == 0:
                     last_sent_getaddr = now
                     self.send_getaddr()
-                # send message
+                # send addr message
                 if interval_addr != -1 and now != last_sent_addr and (
                         now - time.gmtime(time_begin)[4]) % interval_addr == 0:
                     last_sent_addr = now
-                    self.send_addr(content_addr_msg)
+                    self.send_addr(update_timestamps(content_addr_msg))
 
                 data_split = data_buffer.split(MAGIC_NUMBER_COMPARE)
                 write_direct_addr = ''
@@ -270,6 +281,7 @@ class Connection(object):
                     if idx != (len(data_split) - 1):
                         # whole message can be read
                         if re.compile(b'^addr').match(msg):
+                            print(msg)
                             response, is_getaddr_response = self.get_deserialized_addr_message(msg, current_time)
                             if is_getaddr_response:
                                 unpacked_getaddr_msgs += response
@@ -282,10 +294,17 @@ class Connection(object):
                         data_buffer = msg
 
                 # save message to file
-                append_to_file(OUTPUT_ADDR, write_direct_addr)
-                append_to_file(OUTPUT_GETADDR, write_direct_getaddr)
-
-            except MessageContentError as err:
+                lock.acquire()
+                try:
+                    append_to_file(OUTPUT_ADDR, write_direct_addr)
+                    append_to_file(OUTPUT_GETADDR, write_direct_getaddr)
+                finally:
+                    lock.release()
+            except PingError as err:
+                logging.error(
+                    "PingError with bitcoin node {},{}: {}".format(self.to_addr[0], self.to_addr[1], err))
+                break
+            except (MessageContentError, socket.timeout) as err:
                 # start next communication round
                 data_buffer = b''
                 logging.error(
@@ -343,3 +362,18 @@ class Connection(object):
         payload_addr = self.serializer.serialize_addr_payload(addresses)
         msg = self.serializer.create_message('addr', payload_addr)
         self.socket.sendall(msg)
+
+    def send_ping(self):
+        """Send ping message.
+        """
+        logging.info("CONN Send ping.")
+
+        payload_ping = self.serializer.serialize_ping_payload()
+        try:
+            msg = self.serializer.create_message('ping', payload_ping)
+            self.socket.sendall(msg)
+            time.sleep(2)
+        except (socket.timeout, socket.error):
+            raise PingError
+
+

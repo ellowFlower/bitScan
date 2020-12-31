@@ -26,3 +26,7 @@ class HandshakeContentError(Exception):
         When this error happens, start handshake again from the beginning.
     """
     pass
+
+
+class PingError(Exception):
+    pass

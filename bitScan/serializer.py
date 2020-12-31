@@ -121,6 +121,19 @@ class Serializer(object):
 
         return self.serialize_int(len(addr_list)).encode('latin-1') + packed_addresses
 
+    def serialize_ping_payload(self):
+        """Serialize the payload for a ping message.
+
+        Notes:
+            Ping message consists of a nonce.
+
+        Returns:
+            bytes: The packed payload
+        """
+        logging.info('SER Serialize ping payload.')
+
+        return struct.pack('<Q', 9)
+
     def serialize_network_address_values_given(self, address):
         """Serialize (pack) a network address when values are given.
 

@@ -16,7 +16,7 @@ CONTENT_ADDR_SEND = '../input_output/send_addr.csv'
 LOG_MAIN = '../logs/log_main.txt'
 OUTPUT_ADDR = '../input_output/output_addr.csv'
 OUTPUT_GETADDR = '../input_output/output_getaddr.csv'
-
+OUTPUT_DURATION = '../input_output/output_duration.csv'
 
 
 def create_sub_version():
@@ -59,10 +59,10 @@ def unpack_util(fmt, data):
 
 
 def write_to_file(file_location, data, first_line=''):
-    """Append content to a file.
+    """Write content to a file.
 
-    Notes:
-        When appending addresses we got from addr messages the file should already exist with a proper header.
+    Note:
+        Deletes old file.
 
     Args:
         file_location (str): The path to the file we want to append
@@ -71,7 +71,7 @@ def write_to_file(file_location, data, first_line=''):
     """
     logging.info('UTIL Append to file.')
 
-    with open(file_location, 'w+') as f:
+    with open(file_location, 'w') as f:
         f.write(first_line+'\n')
         f.write(data)
 
@@ -119,7 +119,22 @@ def append_to_file(file_location, data):
         file_location (str): The path to the file we want to append
         data (str): Data we append
     """
-    logging.info('UTIL Appoend to file.')
+    logging.info('UTIL Append to file.')
 
     with open(file_location, 'a') as f:
         f.write(data)
+
+
+def update_timestamps(arg):
+    """Update the time in the first entry of an item of the list.
+
+    Args:
+        arg (list): [[<timestamp>,...],[timestamp,...],...]
+
+    Returns:
+        The updated list.
+    """
+    for x in arg:
+        x[0] = str(time.time()).split('.')[0]
+
+    return arg
