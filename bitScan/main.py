@@ -1,9 +1,7 @@
-from bitScan.utils import *
 from bitScan.connection import *
 import logging
 import time
 import multiprocessing
-import sys
 
 
 def main(address):
@@ -24,11 +22,13 @@ def main(address):
     duration_of_connection = 0
 
     try:
-        timeout = calculate_timeout(30)
+        # TODO you can set time frame PER NODE here (in minutes)
+        timeout = calculate_timeout(3)
         conn.open(timeout)
         conn.handshake(timeout)
         beginning_time = time.time()
-        a, b = conn.communicate(timeout, content_addr_msg, lock, 1, -1)
+        # TODO you can set interval for sending addr/getaddr messages here
+        a, b = conn.communicate(timeout, content_addr_msg, lock, -1, -1)
         end_time = time.time()
 
         duration_of_connection = end_time - beginning_time
@@ -41,29 +41,7 @@ def main(address):
 
     conn.close()
 
-    # # write output to files
-    # log_header = 'connectedToHost,connectedToPort,host,port,timestamp,currentTime'
-    # # received addresses from voluntarily addr messages
-    # write_to_file('../input_output/addr_received_' + address[0] + '.csv', received_addr, log_header)
-    # # received addresses as response to getaddr
-    # write_to_file('../input_output/getaddr_received_' + address[0] + '.csv', received_getaddr, log_header)
-
     return address[0], duration_of_connection
-
-
-def handle_cmd_args(count_args, file1, file2, time, send_addr=-1, send_getaddr=-1):
-    """Handles the command line arguments
-
-    Args:
-        count_args (int): Number of arguments.
-        file1 (str): File with addresses of nodes we want to connect.
-        file2 (str): File with addresses of nodes we want to send a addr message.
-        time (int): How long we want to measure in minutes.
-        send_addr (int): Number how often we want to send an addr message. E.g. 2 => every two minutes.
-        send_getaddr (int): Number how often we want to send an getaddr message. E.g. 2 => every two minutes.
-    """
-    # if len(count_args):
-    pass
 
 
 def write_durations_of_connections_to_file(durations_of_connections):

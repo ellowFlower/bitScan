@@ -281,7 +281,6 @@ class Connection(object):
                     if idx != (len(data_split) - 1):
                         # whole message can be read
                         if re.compile(b'^addr').match(msg):
-                            print(msg)
                             response, is_getaddr_response = self.get_deserialized_addr_message(msg, current_time)
                             if is_getaddr_response:
                                 unpacked_getaddr_msgs += response
